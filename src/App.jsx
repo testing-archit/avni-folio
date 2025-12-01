@@ -1068,7 +1068,7 @@ export default function App() {
 
                     <Mail className="w-5 h-5 text-purple-200" />
 
-                    <span>avni.design@example.com</span>
+                    <span>avnisixc13@gmail.com</span>
 
                   </div>
 
@@ -1076,7 +1076,7 @@ export default function App() {
 
                     <Linkedin className="w-5 h-5 text-purple-200" />
 
-                    <span>linkedin.com/in/avni-saini</span>
+                    <span>linkedin.com/in/avni-saini-0927a12b9/</span>
 
                   </div>
 
@@ -1084,7 +1084,7 @@ export default function App() {
 
                     <Instagram className="w-5 h-5 text-purple-200" />
 
-                    <span>@avni.creative</span>
+                    <span>@damnitavni</span>
 
                   </div>
 
