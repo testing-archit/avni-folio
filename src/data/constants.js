@@ -117,14 +117,18 @@ export const portfolioItems = [
   }
 ];
 
-export const experiences = [
+import { processExperiences } from '../utils/dateUtils';
+
+// Raw experiences data with startDate and endDate (null for present positions)
+const rawExperiences = [
   {
     id: 1,
     title: "Placom Volunteer for Batch 2028",
     organization: "Career Services Center - Bennett University",
     employmentType: "Full-time",
-    duration: "Jun 2025 - Present",
-    durationMonths: "7 mos",
+    startDate: "2025-06-01", // Jun 2025
+    endDate: null, // Present
+    priority: 2, // Lower number = higher priority (appears first)
     location: "Greater Noida · On-site",
     description: "Supporting the Placement Cell for Batch 2028 by coordinating communication between students and the committee. Assisting with company interactions, placement drives, and recruitment-related activities while helping peers with queries and contributing to a smooth and organized placement process.",
     color: "from-red-500 to-red-700"
@@ -134,8 +138,9 @@ export const experiences = [
     title: "Deputy Minister of Design",
     organization: "SCSET Student Cabinet, Bennett University",
     employmentType: "Full-time",
-    duration: "Aug 2025 - Present",
-    durationMonths: "5 mos",
+    startDate: "2025-08-01", // Aug 2025
+    endDate: null, // Present
+    priority: 1, // Lower number = higher priority (appears first)
     location: "Greater Noida · On-site",
     description: "Contributing to the university's creative direction by designing event visuals, branding elements, and digital content. I collaborate with various clubs and departments to maintain a consistent design identity and support campus initiatives with impactful visuals.",
     color: "from-blue-500 to-indigo-600"
@@ -145,8 +150,8 @@ export const experiences = [
     title: "Core Team Member - Design",
     organization: "SPARK, E-Cell",
     employmentType: "Full-time",
-    duration: "Jul 2025 - Nov 2025",
-    durationMonths: "5 mos",
+    startDate: "2025-07-01", // Jul 2025
+    endDate: "2025-11-30", // Nov 2025
     location: "Greater Noida · On-site",
     description: "Designed branding and promotional content for entrepreneurship-focused events and initiatives. Collaborated with the team to create visually engaging assets that supported workshops, competitions, and startup-driven activities on campus.",
     color: "from-blue-600 to-red-600"
@@ -156,13 +161,16 @@ export const experiences = [
     title: "Junior Core Member - Design Department",
     organization: "Bennett Undergraduate Research Society",
     employmentType: "Full-time",
-    duration: "Nov 2024 - May 2025",
-    durationMonths: "7 mos",
+    startDate: "2024-11-01", // Nov 2024
+    endDate: "2025-05-31", // May 2025
     location: "Greater Noida · On-site",
     description: "Contributed to the creative direction of BURS through designing visuals, branding elements, and digital content for community-driven initiatives. Collaborated with team members and mentors to support events, workshops, and outreach campaigns with impactful design assets. Gained hands-on experience in design strategy, content planning, and execution while working closely with BURS leadership to enhance communication, engagement, and community impact through thoughtful visuals.",
     skills: ["Management", "Graphic Design"],
     color: "from-red-600 to-slate-800"
   }
 ];
+
+// Process experiences to calculate duration and sort (Present first, then by date)
+export const experiences = processExperiences(rawExperiences);
 
 
