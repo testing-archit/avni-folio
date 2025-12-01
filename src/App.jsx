@@ -500,6 +500,56 @@ const portfolioItems = [
 
 
 
+const experiences = [
+  {
+    id: 1,
+    title: "Placom Volunteer for Batch 2028",
+    organization: "Career Services Center - Bennett University",
+    employmentType: "Full-time",
+    duration: "Jun 2025 - Present",
+    durationMonths: "7 mos",
+    location: "Greater Noida · On-site",
+    description: "Supporting the Placement Cell for Batch 2028 by coordinating communication between students and the committee. Assisting with company interactions, placement drives, and recruitment-related activities while helping peers with queries and contributing to a smooth and organized placement process.",
+    color: "from-red-500 to-red-700"
+  },
+  {
+    id: 2,
+    title: "Deputy Minister of Design",
+    organization: "SCSET Student Cabinet, Bennett University",
+    employmentType: "Full-time",
+    duration: "Aug 2025 - Nov 2025",
+    durationMonths: "4 mos",
+    location: "Greater Noida · On-site",
+    description: "Contributing to the university's creative direction by designing event visuals, branding elements, and digital content. I collaborate with various clubs and departments to maintain a consistent design identity and support campus initiatives with impactful visuals.",
+    color: "from-blue-500 to-indigo-600"
+  },
+  {
+    id: 3,
+    title: "Core Team Member - Design",
+    organization: "SPARK, E-Cell",
+    employmentType: "Full-time",
+    duration: "Jul 2025 - Nov 2025",
+    durationMonths: "5 mos",
+    location: "Greater Noida · On-site",
+    description: "Designed branding and promotional content for entrepreneurship-focused events and initiatives. Collaborated with the team to create visually engaging assets that supported workshops, competitions, and startup-driven activities on campus.",
+    color: "from-blue-600 to-red-600"
+  },
+  {
+    id: 4,
+    title: "Junior Core Member - Design Department",
+    organization: "Bennett Undergraduate Research Society",
+    employmentType: "Full-time",
+    duration: "Nov 2024 - May 2025",
+    durationMonths: "7 mos",
+    location: "Greater Noida · On-site",
+    description: "Contributed to the creative direction of BURS through designing visuals, branding elements, and digital content for community-driven initiatives. Collaborated with team members and mentors to support events, workshops, and outreach campaigns with impactful design assets. Gained hands-on experience in design strategy, content planning, and execution while working closely with BURS leadership to enhance communication, engagement, and community impact through thoughtful visuals.",
+    skills: ["Management", "Graphic Design"],
+    color: "from-red-600 to-slate-800"
+  }
+];
+
+
+
 // --- UI Components ---
 
 
@@ -522,7 +572,7 @@ const Navbar = () => {
 
             <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
 
-              AVNI.DESIGN
+              AVNI'S Studio
 
             </span>
 
@@ -537,6 +587,8 @@ const Navbar = () => {
               <a href="#portfolio" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">Portfolio</a>
 
               <a href="#about" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">About</a>
+
+              <a href="#experience" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">Experience</a>
 
               <a href="#contact" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-lg hover:shadow-purple-500/25">
 
@@ -595,6 +647,8 @@ const Navbar = () => {
               <a href="#portfolio" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Portfolio</a>
 
               <a href="#about" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+
+              <a href="#experience" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Experience</a>
 
               <a href="#contact" className="text-purple-400 block px-3 py-2 rounded-md text-base font-medium">Contact Me</a>
 
@@ -688,6 +742,50 @@ const ProjectCard = ({ item }) => {
 
 
 
+const ExperienceCard = ({ experience }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="group relative bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-white/5 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10"
+    >
+      <div className={`h-24 w-full bg-gradient-to-r ${experience.color} flex items-center justify-center relative overflow-hidden`}>
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="z-10 px-6 w-full">
+          <h3 className="text-xl font-bold text-white mb-1">{experience.title}</h3>
+          <p className="text-white/90 text-sm">{experience.organization}</p>
+        </div>
+      </div>
+      <div className="p-6">
+        <div className="flex flex-wrap gap-3 mb-4 text-sm text-slate-400">
+          <span className="flex items-center">
+            <Calendar className="w-4 h-4 mr-1" />
+            {experience.duration} ({experience.durationMonths})
+          </span>
+          <span>•</span>
+          <span>{experience.location}</span>
+          <span>•</span>
+          <span>{experience.employmentType}</span>
+        </div>
+        <p className="text-slate-300 text-sm leading-relaxed mb-4">{experience.description}</p>
+        {experience.skills && experience.skills.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {experience.skills.map((skill, idx) => (
+              <span key={idx} className="text-xs font-semibold px-3 py-1 bg-slate-700 text-purple-300 rounded-full">
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
+
+
 export default function App() {
 
   const [filter, setFilter] = useState("All");
@@ -732,7 +830,6 @@ export default function App() {
 
             >
 
-              <h2 className="text-purple-400 font-medium tracking-wide text-lg mb-2">PORTFOLIO</h2>
 
               <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
 
@@ -824,9 +921,17 @@ export default function App() {
 
                 <div className="aspect-square rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center overflow-hidden shadow-2xl">
 
-                   {/* Placeholder for profile image */}
-
-                   <span className="text-9xl">👩‍🎨</span>
+                   {/* Profile image */}
+                   <img 
+                     src="/profile-image.jpeg" 
+                     alt="Avni Saini - Designer" 
+                     className="w-full h-full object-cover"
+                     onError={(e) => {
+                       // Fallback to gradient if image fails to load
+                       e.target.style.display = 'none';
+                       e.target.parentElement.classList.add('bg-gradient-to-tr', 'from-purple-600', 'to-pink-600');
+                     }}
+                   />
 
                 </div>
 
@@ -843,15 +948,30 @@ export default function App() {
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">About The Designer</h2>
 
                 <p className="text-slate-300 text-lg leading-relaxed mb-6">
-
-                  I specialize in creating visual identities for college events, clubs, and brands. My work ranges from minimalistic logos for apps like <span className="text-purple-400 font-semibold">Smart Chef</span> to large-scale event branding for <span className="text-purple-400 font-semibold">ResCon 4.0</span> and <span className="text-purple-400 font-semibold">Mobile Next</span>.
-
+                  Hello! I'm <span className="text-purple-400 font-semibold">Avni Saini</span>, 
+                  a Computer Science Engineering student with a specialization in blockchain 
+                  and a strong passion for design. I specialize in creating visual identities 
+                  for college events, clubs, and emerging brands. My projects range from 
+                  minimalistic logos for apps like 
+                  <span className="text-purple-400 font-semibold"> Smart Chef </span> 
+                  to large-scale event branding for 
+                  <span className="text-purple-400 font-semibold"> ResCon 4.0</span> 
+                  and <span className="text-purple-400 font-semibold"> Mobile Next</span>, 
+                  where I focused on building cohesive, memorable visuals.
                 </p>
 
                 <p className="text-slate-300 text-lg leading-relaxed mb-8">
+                  I believe design is not just about how things look, but how they work and feel. 
+                  Every color, layout, and detail must add meaning. My goal is to create immersive 
+                  visual experiences that leave a lasting impact — whether it's a subtle gradient-based 
+                  logo, a bold event banner, or a complete brand system.
+                </p>
 
-                  I believe design is not just about how things look, but how they work and feel. My goal is to create immersive visual experiences that leave a lasting impact.
-
+                <p className="text-slate-300 text-lg leading-relaxed mb-8">
+                  Beyond designing, I actively participate in hackathons, communities, and 
+                  creative tech projects that allow me to blend aesthetics with technology. 
+                  With each project, I aim to tell a story that feels thoughtful, modern, 
+                  and uniquely crafted.
                 </p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -876,7 +996,7 @@ export default function App() {
 
                     <h3 className="text-3xl font-bold text-white mb-1">100%</h3>
 
-                    <p className="text-slate-400 text-sm">Creativity</p>
+                    <p className="text-slate-400 text-sm">Concept to Creation</p>
 
                   </div>
 
@@ -890,6 +1010,27 @@ export default function App() {
 
         </div>
 
+      </section>
+
+
+
+      {/* Experience Section */}
+      <section id="experience" className="py-20 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-white mb-4">Experience</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-8"></div>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              My professional journey and contributions to various organizations
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {experiences.map((experience) => (
+              <ExperienceCard key={experience.id} experience={experience} />
+            ))}
+          </div>
+        </div>
       </section>
 
 
@@ -1064,29 +1205,44 @@ export default function App() {
 
                 <div className="space-y-4">
 
-                  <div className="flex items-center space-x-3">
+                  <a 
+                    href="mailto:avnisixc13@gmail.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
+                  >
 
                     <Mail className="w-5 h-5 text-purple-200" />
 
                     <span>avnisixc13@gmail.com</span>
 
-                  </div>
+                  </a>
 
-                  <div className="flex items-center space-x-3">
+                  <a 
+                    href="https://www.linkedin.com/in/avni-saini-0927a12b9/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
+                  >
 
                     <Linkedin className="w-5 h-5 text-purple-200" />
 
-                    <span>linkedin.com/in/avni-saini-0927a12b9/</span>
+                    <span>linkedin.com/in/avni-saini</span>
 
-                  </div>
+                  </a>
 
-                  <div className="flex items-center space-x-3">
+                  <a 
+                    href="https://instagram.com/damnitavni" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
+                  >
 
                     <Instagram className="w-5 h-5 text-purple-200" />
 
                     <span>@damnitavni</span>
 
-                  </div>
+                  </a>
 
                 </div>
 
