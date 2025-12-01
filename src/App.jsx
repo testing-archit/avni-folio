@@ -517,8 +517,8 @@ const experiences = [
     title: "Deputy Minister of Design",
     organization: "SCSET Student Cabinet, Bennett University",
     employmentType: "Full-time",
-    duration: "Aug 2025 - Nov 2025",
-    durationMonths: "4 mos",
+    duration: "Aug 2025 - Present",
+    durationMonths: "5 mos",
     location: "Greater Noida · On-site",
     description: "Contributing to the university's creative direction by designing event visuals, branding elements, and digital content. I collaborate with various clubs and departments to maintain a consistent design identity and support campus initiatives with impactful visuals.",
     color: "from-blue-500 to-indigo-600"
