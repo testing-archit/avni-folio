@@ -76,3 +76,11 @@ avni-portfolio/
 MIT
 
 # avni-folio
+
+
+
+MADE FOR MY GF,
+WITH LOVE <3
+
+
+HEHEHEHEHEEHHE
