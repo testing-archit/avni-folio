@@ -4,25 +4,25 @@ import { Canvas, useFrame } from '@react-three/fiber';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { 
+import {
 
-  Palette, 
+  Palette,
 
-  Smartphone, 
+  Smartphone,
 
-  Calendar, 
+  Calendar,
 
-  Megaphone, 
+  Megaphone,
 
-  Share2, 
+  Share2,
 
-  Mail, 
+  Mail,
 
-  Linkedin, 
+  Linkedin,
 
-  Instagram, 
+  Instagram,
 
-  ChevronRight, 
+  ChevronRight,
 
   Menu,
 
@@ -54,11 +54,11 @@ function SimpleFloat({ children, speed = 1, rotationIntensity = 1, floatIntensit
 
     if (group.current) {
 
-        group.current.position.y = Math.sin(t * speed) * 0.2 * floatIntensity;
+      group.current.position.y = Math.sin(t * speed) * 0.2 * floatIntensity;
 
-        group.current.rotation.x = (Math.cos(t * speed) * 0.1 * rotationIntensity);
+      group.current.rotation.x = (Math.cos(t * speed) * 0.1 * rotationIntensity);
 
-        group.current.rotation.z = (Math.sin(t * speed) * 0.1 * rotationIntensity);
+      group.current.rotation.z = (Math.sin(t * speed) * 0.1 * rotationIntensity);
 
     }
 
@@ -80,11 +80,11 @@ function StarBackground({ count = 2000 }) {
 
     for (let i = 0; i < count; i++) {
 
-        p[i*3] = (Math.random() - 0.5) * 60;
+      p[i * 3] = (Math.random() - 0.5) * 60;
 
-        p[i*3+1] = (Math.random() - 0.5) * 60;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 60;
 
-        p[i*3+2] = (Math.random() - 0.5) * 60; // Spread depth
+      p[i * 3 + 2] = (Math.random() - 0.5) * 60; // Spread depth
 
     }
 
@@ -92,29 +92,29 @@ function StarBackground({ count = 2000 }) {
 
   }, [count]);
 
-  
+
 
   return (
 
     <points>
 
-        <bufferGeometry>
+      <bufferGeometry>
 
-            <bufferAttribute 
+        <bufferAttribute
 
-              attach="attributes-position" 
+          attach="attributes-position"
 
-              count={points.length/3} 
+          count={points.length / 3}
 
-              array={points} 
+          array={points}
 
-              itemSize={3} 
+          itemSize={3}
 
-            />
+        />
 
-        </bufferGeometry>
+      </bufferGeometry>
 
-        <pointsMaterial size={0.1} color="#ffffff" sizeAttenuation transparent opacity={0.4} />
+      <pointsMaterial size={0.1} color="#f687b3" sizeAttenuation transparent opacity={0.3} />
 
     </points>
 
@@ -124,22 +124,28 @@ function StarBackground({ count = 2000 }) {
 
 
 
-function AnimatedShape({ position, color, speed = 1 }) {
 
-  const meshRef = useRef();
 
-  
+// Soft sphere with orbital ring - elegant and feminine
+function SoftSphere({ position, color, speed = 1 }) {
+
+  const sphereRef = useRef();
+  const ringRef = useRef();
+
+
 
   useFrame((state) => {
 
     const t = state.clock.getElapsedTime();
 
-    if (meshRef.current) {
+    if (sphereRef.current) {
 
-      meshRef.current.rotation.x = t * 0.2 * speed;
+      sphereRef.current.rotation.y = t * 0.2 * speed;
 
-      meshRef.current.rotation.y = t * 0.3 * speed;
-
+    }
+    if (ringRef.current) {
+      ringRef.current.rotation.z = t * 0.4 * speed;
+      ringRef.current.rotation.y = t * 0.1 * speed;
     }
 
   });
@@ -148,29 +154,75 @@ function AnimatedShape({ position, color, speed = 1 }) {
 
   return (
 
-    <SimpleFloat speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+    <SimpleFloat speed={1.5} rotationIntensity={0.3} floatIntensity={0.8}>
 
-      <mesh ref={meshRef} position={position}>
+      <group position={position}>
+        {/* Main soft sphere */}
+        <mesh ref={sphereRef}>
 
-        <torusKnotGeometry args={[1, 0.3, 100, 16]} />
+          <sphereGeometry args={[0.8, 32, 32]} />
 
-        <meshStandardMaterial 
+          <meshStandardMaterial
 
-          color={color} 
+            color={color}
 
-          roughness={0.3}
+            roughness={0.2}
 
-          metalness={0.8}
+            metalness={0.3}
+            emissive={color}
+            emissiveIntensity={0.2}
 
-        />
+          />
 
-      </mesh>
+        </mesh>
+
+        {/* Orbital ring */}
+        <mesh ref={ringRef} rotation={[Math.PI / 4, 0, 0]}>
+          <torusGeometry args={[1.3, 0.05, 16, 50]} />
+          <meshStandardMaterial
+            color={color}
+            roughness={0.4}
+            metalness={0.6}
+            transparent
+            opacity={0.7}
+          />
+        </mesh>
+      </group>
 
     </SimpleFloat>
 
   );
 
 }
+
+// Floating crystal/gem - sparkly and elegant
+function FloatingCrystal({ position, color, speed = 1 }) {
+  const meshRef = useRef();
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (meshRef.current) {
+      meshRef.current.rotation.x = t * 0.3 * speed;
+      meshRef.current.rotation.y = t * 0.5 * speed;
+    }
+  });
+
+  return (
+    <SimpleFloat speed={2} rotationIntensity={0.4} floatIntensity={1}>
+      <mesh ref={meshRef} position={position}>
+        <octahedronGeometry args={[0.6, 0]} />
+        <meshStandardMaterial
+          color={color}
+          roughness={0.1}
+          metalness={0.8}
+          emissive={color}
+          emissiveIntensity={0.3}
+        />
+      </mesh>
+    </SimpleFloat>
+  );
+}
+
 
 
 
@@ -202,27 +254,62 @@ function FloatingParticles({ count = 50 }) {
 
       <bufferGeometry>
 
-        <bufferAttribute 
+        <bufferAttribute
 
-          attach="attributes-position" 
+          attach="attributes-position"
 
-          count={points.length / 3} 
+          count={points.length / 3}
 
-          array={points} 
+          array={points}
 
-          itemSize={3} 
+          itemSize={3}
 
         />
 
       </bufferGeometry>
 
-      <pointsMaterial size={0.05} color="#8b5cf6" sizeAttenuation transparent opacity={0.8} />
+      <pointsMaterial size={0.05} color="#ec4899" sizeAttenuation transparent opacity={0.6} />
 
     </points>
 
   );
 
 }
+
+// Decorative gradient blob - modern background element
+function GradientBlob({ color1, color2, position, size = 400 }) {
+  return (
+    <motion.div
+      className="absolute rounded-full blur-3xl opacity-20"
+      style={{
+        background: `radial-gradient(circle, ${color1} 0%, ${color2} 100%)`,
+        width: `${size}px`,
+        height: `${size}px`,
+        ...position
+      }}
+      animate={{
+        scale: [1, 1.2, 1],
+        opacity: [0.15, 0.25, 0.15],
+      }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+    />
+  );
+}
+
+// Decorative dot pattern
+function DotPattern() {
+  return (
+    <div className="absolute inset-0 opacity-5" style={{
+      backgroundImage: 'radial-gradient(circle, #ec4899 1px, transparent 1px)',
+      backgroundSize: '30px 30px'
+    }} />
+  );
+}
+
 
 
 
@@ -234,41 +321,41 @@ const HeroScene = () => {
 
       <Canvas camera={{ position: [0, 0, 6] }}>
 
-        <color attach="background" args={['#0f172a']} />
+        <color attach="background" args={['#fdf2f8']} />
 
-        
 
-        <ambientLight intensity={0.5} />
+
+        <ambientLight intensity={0.6} />
 
         <directionalLight position={[10, 10, 5]} intensity={1} />
 
-        <pointLight position={[-10, -10, -5]} intensity={1} color="#a855f7" />
+        <pointLight position={[-10, -10, -5]} intensity={1} color="#ec4899" />
 
-        
+
 
         <StarBackground />
 
-        
 
-        {/* Main Hero Object */}
 
-        <AnimatedShape position={[2, 0, 0]} color="#a855f7" />
+        {/* Main Hero Object - Soft Sphere with Ring */}
 
-        
+        <SoftSphere position={[2, 0, 0]} color="#ec4899" />
+
+
 
         {/* Secondary decorative objects */}
 
-        <AnimatedShape position={[-3, 2, -4]} color="#3b82f6" speed={0.5} />
+        <FloatingCrystal position={[-3, 2, -4]} color="#b76e79" speed={0.5} />
 
-        <AnimatedShape position={[-2, -3, -2]} color="#ec4899" speed={0.7} />
+        <SoftSphere position={[-2, -3, -2]} color="#f687b3" speed={0.7} />
 
-        
+
 
         <FloatingParticles />
 
       </Canvas>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-pink-100/40 via-transparent to-transparent pointer-events-none" />
 
     </div>
 
@@ -304,7 +391,7 @@ const portfolioItems = [
 
     tags: ["App Design", "Branding", "Minimalist"],
 
-    color: "from-orange-400 to-red-500",
+    color: "from-pink-rose-300 to-pink-rose-500",
 
     page: "Page 3"
 
@@ -324,7 +411,7 @@ const portfolioItems = [
 
     tags: ["Health", "App", "Serenity"],
 
-    color: "from-teal-400 to-blue-500",
+    color: "from-pink-200 to-pink-rose-400",
 
     page: "Page 4"
 
@@ -346,7 +433,7 @@ const portfolioItems = [
 
     tags: ["Tech", "Conference", "Futuristic"],
 
-    color: "from-blue-600 to-indigo-700",
+    color: "from-purple-300 to-pink-rose-500",
 
     page: "Page 6"
 
@@ -366,7 +453,7 @@ const portfolioItems = [
 
     tags: ["Cultural", "Patriotic", "Poster"],
 
-    color: "from-orange-500 to-green-600",
+    color: "from-rose-300 to-pink-rose-600",
 
     page: "Page 8"
 
@@ -386,7 +473,7 @@ const portfolioItems = [
 
     tags: ["Music", "Concert", "Night"],
 
-    color: "from-purple-500 to-pink-500",
+    color: "from-pink-rose-400 to-pink-600",
 
     page: "Page 9"
 
@@ -406,7 +493,7 @@ const portfolioItems = [
 
     tags: ["Hackathon", "Innovation", "Tech"],
 
-    color: "from-blue-500 to-cyan-500",
+    color: "from-pink-rose-300 to-purple-400",
 
     page: "Page 12"
 
@@ -426,7 +513,7 @@ const portfolioItems = [
 
     tags: ["UI/UX", "Government", "Digital"],
 
-    color: "from-slate-600 to-slate-800",
+    color: "from-slate-400 to-slate-600",
 
     page: "Page 14"
 
@@ -448,7 +535,7 @@ const portfolioItems = [
 
     tags: ["Sponsorship", "Marketing", "Corporate"],
 
-    color: "from-red-600 to-red-800",
+    color: "from-rose-400 to-pink-rose-700",
 
     page: "Page 18"
 
@@ -470,7 +557,7 @@ const portfolioItems = [
 
     tags: ["Social Media", "Hiring", "Youth"],
 
-    color: "from-yellow-400 to-orange-500",
+    color: "from-amber-200 to-rose-300",
 
     page: "Page 20"
 
@@ -490,7 +577,7 @@ const portfolioItems = [
 
     tags: ["Community", "Creative", "Fun"],
 
-    color: "from-indigo-500 to-purple-600",
+    color: "from-purple-300 to-pink-rose-500",
 
     page: "Page 23"
 
@@ -510,7 +597,7 @@ const experiences = [
     durationMonths: "7 mos",
     location: "Greater Noida · On-site",
     description: "Supporting the Placement Cell for Batch 2028 by coordinating communication between students and the committee. Assisting with company interactions, placement drives, and recruitment-related activities while helping peers with queries and contributing to a smooth and organized placement process.",
-    color: "from-red-500 to-red-700"
+    color: "from-pink-rose-400 to-rose-600"
   },
   {
     id: 2,
@@ -521,7 +608,7 @@ const experiences = [
     durationMonths: "5 mos",
     location: "Greater Noida · On-site",
     description: "Contributing to the university's creative direction by designing event visuals, branding elements, and digital content. I collaborate with various clubs and departments to maintain a consistent design identity and support campus initiatives with impactful visuals.",
-    color: "from-blue-500 to-indigo-600"
+    color: "from-pink-rose-300 to-pink-rose-600"
   },
   {
     id: 3,
@@ -532,7 +619,7 @@ const experiences = [
     durationMonths: "5 mos",
     location: "Greater Noida · On-site",
     description: "Designed branding and promotional content for entrepreneurship-focused events and initiatives. Collaborated with the team to create visually engaging assets that supported workshops, competitions, and startup-driven activities on campus.",
-    color: "from-blue-600 to-red-600"
+    color: "from-pink-300 to-pink-rose-600"
   },
   {
     id: 4,
@@ -544,7 +631,7 @@ const experiences = [
     location: "Greater Noida · On-site",
     description: "Contributed to the creative direction of BURS through designing visuals, branding elements, and digital content for community-driven initiatives. Collaborated with team members and mentors to support events, workshops, and outreach campaigns with impactful design assets. Gained hands-on experience in design strategy, content planning, and execution while working closely with BURS leadership to enhance communication, engagement, and community impact through thoughtful visuals.",
     skills: ["Management", "Graphic Design"],
-    color: "from-red-600 to-slate-800"
+    color: "from-rose-400 to-slate-500"
   }
 ];
 
@@ -562,7 +649,7 @@ const Navbar = () => {
 
   return (
 
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-pink-rose-200 shadow-sm">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -570,7 +657,7 @@ const Navbar = () => {
 
           <div className="flex-shrink-0">
 
-            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-rose-500 to-rose-gold font-['Playfair_Display']">
 
               AVNI'S Studio
 
@@ -582,15 +669,15 @@ const Navbar = () => {
 
             <div className="ml-10 flex items-baseline space-x-8">
 
-              <a href="#home" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">Home</a>
+              <a href="#home" className="hover:text-pink-rose-500 transition-colors px-3 py-2 rounded-md text-sm font-medium text-slate-700">Home</a>
 
-              <a href="#portfolio" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">Portfolio</a>
+              <a href="#portfolio" className="hover:text-pink-rose-500 transition-colors px-3 py-2 rounded-md text-sm font-medium text-slate-700">Portfolio</a>
 
-              <a href="#about" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">About</a>
+              <a href="#about" className="hover:text-pink-rose-500 transition-colors px-3 py-2 rounded-md text-sm font-medium text-slate-700">About</a>
 
-              <a href="#experience" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">Experience</a>
+              <a href="#experience" className="hover:text-pink-rose-500 transition-colors px-3 py-2 rounded-md text-sm font-medium text-slate-700">Experience</a>
 
-              <a href="#contact" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-lg hover:shadow-purple-500/25">
+              <a href="#contact" className="bg-gradient-to-r from-pink-rose-500 to-pink-rose-600 hover:from-pink-rose-600 hover:to-pink-rose-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all shadow-lg hover:shadow-pink-rose-500/25">
 
                 Contact Me
 
@@ -606,7 +693,7 @@ const Navbar = () => {
 
               onClick={() => setIsOpen(!isOpen)}
 
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-md text-slate-600 hover:text-pink-rose-500 hover:bg-pink-rose-50 focus:outline-none"
 
             >
 
@@ -620,7 +707,7 @@ const Navbar = () => {
 
       </div>
 
-      
+
 
       {/* Mobile menu */}
 
@@ -628,7 +715,7 @@ const Navbar = () => {
 
         {isOpen && (
 
-          <motion.div 
+          <motion.div
 
             initial={{ opacity: 0, height: 0 }}
 
@@ -636,21 +723,21 @@ const Navbar = () => {
 
             exit={{ opacity: 0, height: 0 }}
 
-            className="md:hidden bg-slate-900 border-b border-white/10"
+            className="md:hidden bg-white/90 backdrop-blur-md border-b border-pink-rose-200"
 
           >
 
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
 
-              <a href="#home" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+              <a href="#home" className="text-slate-700 hover:text-pink-rose-500 block px-3 py-2 rounded-md text-base font-medium">Home</a>
 
-              <a href="#portfolio" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Portfolio</a>
+              <a href="#portfolio" className="text-slate-700 hover:text-pink-rose-500 block px-3 py-2 rounded-md text-base font-medium">Portfolio</a>
 
-              <a href="#about" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+              <a href="#about" className="text-slate-700 hover:text-pink-rose-500 block px-3 py-2 rounded-md text-base font-medium">About</a>
 
-              <a href="#experience" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Experience</a>
+              <a href="#experience" className="text-slate-700 hover:text-pink-rose-500 block px-3 py-2 rounded-md text-base font-medium">Experience</a>
 
-              <a href="#contact" className="text-purple-400 block px-3 py-2 rounded-md text-base font-medium">Contact Me</a>
+              <a href="#contact" className="text-pink-rose-500 block px-3 py-2 rounded-md text-base font-medium">Contact Me</a>
 
             </div>
 
@@ -684,7 +771,9 @@ const ProjectCard = ({ item }) => {
 
       transition={{ duration: 0.3 }}
 
-      className="group relative bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-white/5 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10"
+      className="group relative bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-pink-rose-100 hover:border-pink-rose-300 transition-all duration-300 hover:shadow-2xl hover:shadow-pink-rose-200/50"
+      whileHover={{ y: -8, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
 
     >
 
@@ -700,9 +789,9 @@ const ProjectCard = ({ item }) => {
 
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-900/90 to-transparent">
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white/95 to-transparent">
 
-          <h3 className="text-xl font-bold text-white">{item.title}</h3>
+          <h3 className="text-xl font-bold text-slate-800">{item.title}</h3>
 
         </div>
 
@@ -714,7 +803,7 @@ const ProjectCard = ({ item }) => {
 
           {item.tags.map((tag, idx) => (
 
-            <span key={idx} className="text-xs font-semibold px-2 py-1 bg-slate-700 text-purple-300 rounded-full">
+            <span key={idx} className="text-xs font-semibold px-2 py-1 bg-pink-rose-100 text-pink-rose-700 rounded-full">
 
               {tag}
 
@@ -724,9 +813,9 @@ const ProjectCard = ({ item }) => {
 
         </div>
 
-        <p className="text-slate-400 text-sm mb-4">{item.description}</p>
+        <p className="text-slate-600 text-sm mb-4">{item.description}</p>
 
-        <button className="flex items-center text-sm font-medium text-white group-hover:text-purple-400 transition-colors">
+        <button className="flex items-center text-sm font-medium text-pink-rose-600 group-hover:text-pink-rose-700 transition-colors">
 
           View Project <ChevronRight className="w-4 h-4 ml-1" />
 
@@ -749,7 +838,8 @@ const ExperienceCard = ({ experience }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="group relative bg-slate-800 rounded-xl overflow-hidden shadow-xl border border-white/5 hover:border-purple-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10"
+      className="group relative bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-pink-rose-100 hover:border-pink-rose-300 transition-all duration-300 hover:shadow-2xl hover:shadow-pink-rose-200/50"
+      whileHover={{ y: -5, scale: 1.01 }}
     >
       <div className={`h-24 w-full bg-gradient-to-r ${experience.color} flex items-center justify-center relative overflow-hidden`}>
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
@@ -759,9 +849,9 @@ const ExperienceCard = ({ experience }) => {
         </div>
       </div>
       <div className="p-6">
-        <div className="flex flex-wrap gap-3 mb-4 text-sm text-slate-400">
+        <div className="flex flex-wrap gap-3 mb-4 text-sm text-slate-600">
           <span className="flex items-center">
-            <Calendar className="w-4 h-4 mr-1" />
+            <Calendar className="w-4 h-4 mr-1 text-pink-rose-500" />
             {experience.duration} ({experience.durationMonths})
           </span>
           <span>•</span>
@@ -769,11 +859,11 @@ const ExperienceCard = ({ experience }) => {
           <span>•</span>
           <span>{experience.employmentType}</span>
         </div>
-        <p className="text-slate-300 text-sm leading-relaxed mb-4">{experience.description}</p>
+        <p className="text-slate-600 text-sm leading-relaxed mb-4">{experience.description}</p>
         {experience.skills && experience.skills.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
             {experience.skills.map((skill, idx) => (
-              <span key={idx} className="text-xs font-semibold px-3 py-1 bg-slate-700 text-purple-300 rounded-full">
+              <span key={idx} className="text-xs font-semibold px-3 py-1 bg-pink-rose-100 text-pink-rose-700 rounded-full">
                 {skill}
               </span>
             ))}
@@ -792,9 +882,9 @@ export default function App() {
 
 
 
-  const filteredItems = filter === "All" 
+  const filteredItems = filter === "All"
 
-    ? portfolioItems 
+    ? portfolioItems
 
     : portfolioItems.filter(item => item.category === filter);
 
@@ -802,7 +892,7 @@ export default function App() {
 
   return (
 
-    <div className="bg-slate-900 min-h-screen text-slate-100 font-sans selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen text-slate-800 font-sans selection:bg-pink-rose-500 selection:text-white">
 
       <Navbar />
 
@@ -818,7 +908,7 @@ export default function App() {
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
 
-            <motion.div 
+            <motion.div
 
               initial={{ opacity: 0, x: -50 }}
 
@@ -831,37 +921,41 @@ export default function App() {
             >
 
 
-              <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-slate-900 mb-6 leading-tight font-['Playfair_Display']">
 
-                I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Avni Saini</span>
+                I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-rose-500 via-pink-rose-600 to-rose-gold">Avni Saini</span>
 
               </h1>
 
-              <p className="text-xl md:text-2xl text-slate-300 mb-8 font-light">
+              <p className="text-lg sm:text-xl md:text-2xl text-slate-700 mb-8 font-normal">
 
                 A Creative Designer specializing in Brand Identity, Event Visuals, and Digital Experiences.
 
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
 
-                <a href="#portfolio" className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg">
+                <motion.a href="#portfolio" className="px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base bg-gradient-to-r from-pink-rose-500 to-pink-rose-600 text-white font-bold rounded-full hover:from-pink-rose-600 hover:to-pink-rose-700 transition-all shadow-lg shadow-pink-rose-300/30"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}>
 
                   See My Work
 
-                </a>
+                </motion.a>
 
-                <a href="#contact" className="px-8 py-3 border border-white/30 backdrop-blur-sm text-white font-medium rounded-full hover:bg-white/10 transition-colors">
+                <motion.a href="#contact" className="px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base border-2 border-pink-rose-500 backdrop-blur-sm text-pink-rose-800 font-semibold rounded-full hover:bg-pink-rose-100 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}>
 
                   Contact Me
 
-                </a>
+                </motion.a>
 
               </div>
 
             </motion.div>
 
-            
+
 
             {/* The 3D element acts as the visual interest on the right for desktop, 
 
@@ -871,11 +965,11 @@ export default function App() {
 
         </div>
 
-        
+
 
         {/* Scroll Indicator */}
 
-        <motion.div 
+        <motion.div
 
           animate={{ y: [0, 10, 0] }}
 
@@ -885,9 +979,9 @@ export default function App() {
 
         >
 
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-1">
+          <div className="w-6 h-10 border-2 border-pink-rose-300 rounded-full flex justify-center p-1">
 
-            <div className="w-1 h-2 bg-white rounded-full" />
+            <div className="w-1 h-2 bg-pink-rose-400 rounded-full" />
 
           </div>
 
@@ -899,11 +993,15 @@ export default function App() {
 
       {/* About Section */}
 
-      <section id="about" className="py-20 bg-slate-900 relative">
+      <section id="about" className="py-20 relative overflow-hidden">
+        {/* Decorative Elements */}
+        <GradientBlob color1="#fce7f3" color2="#f9a8d4" position={{ top: '10%', right: '-10%' }} size={500} />
+        <GradientBlob color1="#fbb6ce" color2="#f472b6" position={{ bottom: '20%', left: '-15%' }} size={600} />
+        <DotPattern />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-          <motion.div 
+          <motion.div
 
             initial={{ opacity: 0, y: 20 }}
 
@@ -911,92 +1009,92 @@ export default function App() {
 
             viewport={{ once: true }}
 
-            className="bg-slate-800/50 rounded-3xl p-8 md:p-12 border border-white/5"
+            className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 sm:p-8 md:p-12 border border-pink-rose-200 shadow-xl shadow-pink-rose-100/50"
 
           >
 
-            <div className="md:flex items-center gap-12">
+            <div className="md:flex md:gap-8 items-center">
 
               <div className="md:w-1/3 mb-8 md:mb-0 relative">
 
-                <div className="aspect-square rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center overflow-hidden shadow-2xl">
+                <div className="aspect-square rounded-2xl bg-gradient-to-tr from-pink-rose-400 to-rose-gold flex items-center justify-center overflow-hidden shadow-2xl shadow-pink-rose-300/40">
 
-                   {/* Profile image */}
-                   <img 
-                     src="/profile-image.jpeg" 
-                     alt="Avni Saini - Designer" 
-                     className="w-full h-full object-cover"
-                     onError={(e) => {
-                       // Fallback to gradient if image fails to load
-                       e.target.style.display = 'none';
-                       e.target.parentElement.classList.add('bg-gradient-to-tr', 'from-purple-600', 'to-pink-600');
-                     }}
-                   />
+                  {/* Profile image */}
+                  <img
+                    src="/profile-image.jpeg"
+                    alt="Avni Saini - Designer"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to gradient if image fails to load
+                      e.target.style.display = 'none';
+                      e.target.parentElement.classList.add('bg-gradient-to-tr', 'from-pink-rose-400', 'to-rose-gold');
+                    }}
+                  />
 
                 </div>
 
                 {/* Decorative Elements */}
 
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-500/20 rounded-full blur-xl"></div>
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-pink-rose-400/20 rounded-full blur-xl"></div>
 
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-pink-500/20 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-rose-gold/20 rounded-full blur-xl"></div>
 
               </div>
 
               <div className="md:w-2/3">
 
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">About The Designer</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6 font-['Playfair_Display']">About The Designer</h2>
 
-                <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                  Hello! I'm <span className="text-purple-400 font-semibold">Avni Saini</span>, 
-                  a Computer Science Engineering student with a specialization in blockchain 
-                  and a strong passion for design. I specialize in creating visual identities 
-                  for college events, clubs, and emerging brands. My projects range from 
-                  minimalistic logos for apps like 
-                  <span className="text-purple-400 font-semibold"> Smart Chef </span> 
-                  to large-scale event branding for 
-                  <span className="text-purple-400 font-semibold"> ResCon 4.0</span> 
-                  and <span className="text-purple-400 font-semibold"> Mobile Next</span>, 
+                <p className="text-slate-600 text-lg leading-relaxed mb-6">
+                  Hello! I'm <span className="text-pink-rose-600 font-semibold">Avni Saini</span>,
+                  a Computer Science Engineering student with a specialization in blockchain
+                  and a strong passion for design. I specialize in creating visual identities
+                  for college events, clubs, and emerging brands. My projects range from
+                  minimalistic logos for apps like
+                  <span className="text-pink-rose-600 font-semibold"> Smart Chef </span>
+                  to large-scale event branding for
+                  <span className="text-pink-rose-600 font-semibold"> ResCon 4.0</span>
+                  and <span className="text-pink-rose-600 font-semibold"> Mobile Next</span>,
                   where I focused on building cohesive, memorable visuals.
                 </p>
 
-                <p className="text-slate-300 text-lg leading-relaxed mb-8">
-                  I believe design is not just about how things look, but how they work and feel. 
-                  Every color, layout, and detail must add meaning. My goal is to create immersive 
-                  visual experiences that leave a lasting impact — whether it's a subtle gradient-based 
+                <p className="text-slate-600 text-lg leading-relaxed mb-8">
+                  I believe design is not just about how things look, but how they work and feel.
+                  Every color, layout, and detail must add meaning. My goal is to create immersive
+                  visual experiences that leave a lasting impact — whether it's a subtle gradient-based
                   logo, a bold event banner, or a complete brand system.
                 </p>
 
-                <p className="text-slate-300 text-lg leading-relaxed mb-8">
-                  Beyond designing, I actively participate in hackathons, communities, and 
-                  creative tech projects that allow me to blend aesthetics with technology. 
-                  With each project, I aim to tell a story that feels thoughtful, modern, 
+                <p className="text-slate-600 text-lg leading-relaxed mb-8">
+                  Beyond designing, I actively participate in hackathons, communities, and
+                  creative tech projects that allow me to blend aesthetics with technology.
+                  With each project, I aim to tell a story that feels thoughtful, modern,
                   and uniquely crafted.
                 </p>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
 
-                  <div className="text-center p-4 bg-slate-900/50 rounded-xl">
+                  <div className="text-center p-4 bg-pink-rose-50 rounded-xl border border-pink-rose-100">
 
-                    <h3 className="text-3xl font-bold text-white mb-1">20+</h3>
+                    <h3 className="text-3xl font-bold text-pink-rose-600 mb-1">20+</h3>
 
-                    <p className="text-slate-400 text-sm">Projects</p>
-
-                  </div>
-
-                  <div className="text-center p-4 bg-slate-900/50 rounded-xl">
-
-                    <h3 className="text-3xl font-bold text-white mb-1">5+</h3>
-
-                    <p className="text-slate-400 text-sm">Major Events</p>
+                    <p className="text-slate-600 text-sm">Projects</p>
 
                   </div>
 
-                  <div className="text-center p-4 bg-slate-900/50 rounded-xl">
+                  <div className="text-center p-4 bg-pink-rose-50 rounded-xl border border-pink-rose-100">
 
-                    <h3 className="text-3xl font-bold text-white mb-1">100%</h3>
+                    <h3 className="text-3xl font-bold text-pink-rose-600 mb-1">5+</h3>
 
-                    <p className="text-slate-400 text-sm">Concept to Creation</p>
+                    <p className="text-slate-600 text-sm">Major Events</p>
+
+                  </div>
+
+                  <div className="text-center p-4 bg-pink-rose-50 rounded-xl border border-pink-rose-100">
+
+                    <h3 className="text-3xl font-bold text-pink-rose-600 mb-1">100%</h3>
+
+                    <p className="text-slate-600 text-sm">Concept to Creation</p>
 
                   </div>
 
@@ -1015,12 +1113,16 @@ export default function App() {
 
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="experience" className="py-20 bg-white/40 relative overflow-hidden">
+        {/* Decorative Elements */}
+        <GradientBlob color1="#f9a8d4" color2="#ec4899" position={{ top: '5%', left: '-5%' }} size={400} />
+        <DotPattern />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Experience</h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-8"></div>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <h2 className="text-4xl font-bold text-slate-800 mb-4 font-['Playfair_Display']">Experience</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-pink-rose-500 to-rose-gold mx-auto rounded-full mb-8"></div>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
               My professional journey and contributions to various organizations
             </p>
           </div>
@@ -1037,17 +1139,20 @@ export default function App() {
 
       {/* Portfolio Section */}
 
-      <section id="portfolio" className="py-20 bg-slate-950">
+      <section id="portfolio" className="py-20 relative overflow-hidden">
+        {/* Decorative Elements */}
+        <GradientBlob color1="#fbb6ce" color2="#f472b6" position={{ top: '15%', right: '-10%' }} size={450} />
+        <DotPattern />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
           <div className="text-center mb-12">
 
-            <h2 className="text-4xl font-bold text-white mb-4">Selected Works</h2>
+            <h2 className="text-4xl font-bold text-slate-800 mb-4 font-['Playfair_Display']">Selected Works</h2>
 
-            <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-8"></div>
+            <div className="w-20 h-1 bg-gradient-to-r from-pink-rose-500 to-rose-gold mx-auto rounded-full mb-8"></div>
 
-            
+
 
             {/* Filter Buttons */}
 
@@ -1061,15 +1166,13 @@ export default function App() {
 
                   onClick={() => setFilter(cat)}
 
-                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${filter === cat
 
-                    filter === cat 
+                    ? 'bg-gradient-to-r from-pink-rose-500 to-pink-rose-600 text-white shadow-lg shadow-pink-rose-300/40'
 
-                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/25' 
+                    : 'bg-white/80 text-slate-600 hover:bg-white hover:text-pink-rose-600 border border-pink-rose-100'
 
-                      : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
-
-                  }`}
+                    }`}
 
                 >
 
@@ -1085,7 +1188,7 @@ export default function App() {
 
 
 
-          <motion.div 
+          <motion.div
 
             layout
 
@@ -1113,53 +1216,56 @@ export default function App() {
 
       {/* Services/Capabilities Section */}
 
-      <section className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
+      <section className="py-20 bg-gradient-to-b from-white/60 to-pink-rose-50/40 relative overflow-hidden">
+        {/* Decorative Elements */}
+        <GradientBlob color1="#f9a8d4" color2="#fbb6ce" position={{ top: '10%', left: '-8%' }} size={350} />
+        <GradientBlob color1="#ec4899" color2="#f472b6" position={{ bottom: '10%', right: '-8%' }} size={400} />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
 
-          <h2 className="text-3xl font-bold text-white mb-16">What I Do</h2>
+          <h2 className="text-3xl font-bold text-slate-800 mb-16 font-['Playfair_Display']">What I Do</h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
 
-            <motion.div whileHover={{ y: -10 }} className="p-8 rounded-2xl bg-slate-800/30 border border-white/5">
+            <motion.div whileHover={{ y: -10 }} className="p-8 rounded-2xl bg-white/80 backdrop-blur-sm border border-pink-rose-100 shadow-lg hover:shadow-xl transition-all">
 
-              <div className="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-pink-rose-100 text-pink-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
 
                 <Palette className="w-8 h-8" />
 
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-3">Brand Identity</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-3">Brand Identity</h3>
 
-              <p className="text-slate-400">Crafting unique logos and visual systems that define brands, like Smart Chef and Calm Zone.</p>
+              <p className="text-slate-600">Crafting unique logos and visual systems that define brands, like Smart Chef and Calm Zone.</p>
 
             </motion.div>
 
-            <motion.div whileHover={{ y: -10 }} className="p-8 rounded-2xl bg-slate-800/30 border border-white/5">
+            <motion.div whileHover={{ y: -10 }} className="p-8 rounded-2xl bg-white/80 backdrop-blur-sm border border-pink-rose-100 shadow-lg hover:shadow-xl transition-all">
 
-              <div className="w-16 h-16 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-pink-rose-100 text-pink-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
 
                 <Megaphone className="w-8 h-8" />
 
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-3">Event Marketing</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-3">Event Marketing</h3>
 
-              <p className="text-slate-400">Designing cohesive collateral for large scale events including posters, banners, and digital displays.</p>
+              <p className="text-slate-600">Designing cohesive collateral for large scale events including posters, banners, and digital displays.</p>
 
             </motion.div>
 
-            <motion.div whileHover={{ y: -10 }} className="p-8 rounded-2xl bg-slate-800/30 border border-white/5">
+            <motion.div whileHover={{ y: -10 }} className="p-8 rounded-2xl bg-white/80 backdrop-blur-sm border border-pink-rose-100 shadow-lg hover:shadow-xl transition-all">
 
-              <div className="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-pink-rose-100 text-pink-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
 
                 <Share2 className="w-8 h-8" />
 
               </div>
 
-              <h3 className="text-xl font-bold text-white mb-3">Social Media</h3>
+              <h3 className="text-xl font-bold text-slate-800 mb-3">Social Media</h3>
 
-              <p className="text-slate-400">Creating engaging content for social platforms to drive engagement and brand awareness.</p>
+              <p className="text-slate-600">Creating engaging content for social platforms to drive engagement and brand awareness.</p>
 
             </motion.div>
 
@@ -1173,27 +1279,27 @@ export default function App() {
 
       {/* Contact Section */}
 
-      <section id="contact" className="py-20 bg-slate-950 relative overflow-hidden">
+      <section id="contact" className="py-20 relative overflow-hidden">
 
         {/* Background Gradients */}
-
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
-
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-600/10 rounded-full blur-3xl"></div>
+        <GradientBlob color1="#fce7f3" color2="#f9a8d4" position={{ top: '0%', left: '10%' }} size={500} />
+        <GradientBlob color1="#fbb6ce" color2="#f472b6" position={{ bottom: '0%', right: '10%' }} size={500} />
+        <DotPattern />
 
 
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-          <div className="bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-white/10">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden border border-pink-rose-200">
 
             <div className="grid md:grid-cols-2">
 
-              <div className="p-10 bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex flex-col justify-between">
+              <div className="p-8 sm:p-10 bg-gradient-to-br from-pink-rose-500 via-pink-rose-600 to-rose-gold text-white flex flex-col justify-between">
 
                 <div>
 
-                  <h2 className="text-3xl font-bold mb-4">Let's work together!</h2>
+                  <p className="text-pink-50 text-sm sm:text-base">Let's create something amazing together!</p>
+                  <h2 className="text-3xl font-bold mb-4"></h2>
 
                   <p className="text-purple-100 mb-8">
 
@@ -1205,9 +1311,9 @@ export default function App() {
 
                 <div className="space-y-4">
 
-                  <a 
-                    href="mailto:avnisixc13@gmail.com" 
-                    target="_blank" 
+                  <a
+                    href="mailto:avnisixc13@gmail.com"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                   >
@@ -1218,9 +1324,9 @@ export default function App() {
 
                   </a>
 
-                  <a 
-                    href="https://www.linkedin.com/in/avni-saini-0927a12b9/" 
-                    target="_blank" 
+                  <a
+                    href="https://www.linkedin.com/in/avni-saini-0927a12b9/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                   >
@@ -1231,9 +1337,9 @@ export default function App() {
 
                   </a>
 
-                  <a 
-                    href="https://instagram.com/damnitavni" 
-                    target="_blank" 
+                  <a
+                    href="https://instagram.com/damnitavni"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                   >
@@ -1250,41 +1356,23 @@ export default function App() {
 
 
 
-              <div className="p-10 bg-slate-900">
+              <div className="p-10 bg-white">
 
                 <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
 
                   <div>
 
-                    <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-1">Name</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-600 mb-1">Name</label>
 
-                    <input 
+                    <input
 
-                      type="text" 
+                      type="text"
 
-                      id="name" 
+                      id="name"
 
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      className="w-full bg-white border border-pink-rose-200 rounded-lg px-4 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-pink-rose-400 focus:border-transparent transition-all"
 
-                      placeholder="Your Name" 
-
-                    />
-
-                  </div>
-
-                  <div>
-
-                    <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-
-                    <input 
-
-                      type="email" 
-
-                      id="email" 
-
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-
-                      placeholder="your@email.com" 
+                      placeholder="Your Name"
 
                     />
 
@@ -1292,23 +1380,41 @@ export default function App() {
 
                   <div>
 
-                    <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-1">Message</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-600 mb-1">Email</label>
 
-                    <textarea 
+                    <input
 
-                      id="message" 
+                      type="email"
 
-                      rows={4} 
+                      id="email"
 
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      className="w-full bg-white border border-pink-rose-200 rounded-lg px-4 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-pink-rose-400 focus:border-transparent transition-all"
 
-                      placeholder="Tell me about your project..." 
+                      placeholder="your@email.com"
 
                     />
 
                   </div>
 
-                  <button type="submit" className="w-full bg-white text-slate-900 font-bold py-3 rounded-lg hover:bg-purple-50 transition-colors">
+                  <div>
+
+                    <label htmlFor="message" className="block text-sm font-medium text-slate-600 mb-1">Message</label>
+
+                    <textarea
+
+                      id="message"
+
+                      rows={4}
+
+                      className="w-full bg-white border border-pink-rose-200 rounded-lg px-4 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-pink-rose-400 focus:border-transparent transition-all"
+
+                      placeholder="Tell me about your project..."
+
+                    />
+
+                  </div>
+
+                  <button type="submit" className="w-full bg-gradient-to-r from-pink-rose-500 to-pink-rose-600 text-white font-bold py-3 rounded-lg hover:from-pink-rose-600 hover:to-pink-rose-700 transition-all shadow-lg shadow-pink-rose-300/30">
 
                     Send Message
 
@@ -1330,15 +1436,15 @@ export default function App() {
 
       {/* Footer */}
 
-      <footer className="bg-slate-950 border-t border-white/5 py-8">
+      <footer className="bg-white/80 backdrop-blur-sm border-t border-pink-rose-200 py-8">
 
         <div className="max-w-7xl mx-auto px-4 text-center">
 
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-600 text-sm">
 
-            © {new Date().getFullYear()} Avni Saini. All rights reserved. <br/>
+            © {new Date().getFullYear()} Avni Saini. All rights reserved. <br />
 
-            <span className="text-xs text-slate-600">Designed with React, Three.js & Tailwind</span>
+            <span className="text-xs text-slate-500">Designed with React, Three.js & Tailwind</span>
 
           </p>
 
