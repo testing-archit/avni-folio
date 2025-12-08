@@ -11,19 +11,23 @@ const ContactSection = () => {
 
     const formData = new FormData(e.target);
 
-    // Web3Forms access key from environment variable
-    // Get your free access key from: https://web3forms.com (enter pinewoodarchit@gmail.com)
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '66d4a5d1-9092-459b-abbd-a138ca626eaa';
-
-    formData.append('access_key', accessKey);
-    formData.append('subject', `Portfolio Contact from ${formData.get('name')}`);
-    formData.append('from_name', 'Avni Portfolio');
-    formData.append('redirect', 'false');
+    // Prepare data for backend API
+    const contactData = {
+      name: formData.get('name'),
+      email: formData.get('sender_email'),
+      message: formData.get('message')
+    };
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      // Backend API endpoint
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+      const response = await fetch(`${API_URL}/api/contacts`, {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactData)
       });
 
       const data = await response.json();
@@ -32,11 +36,11 @@ const ContactSection = () => {
         toast.success('Message sent successfully! I\'ll get back to you soon.');
         e.target.reset();
       } else {
-        toast.error('Failed to send message. Please try again.');
+        toast.error(data.message || 'Failed to send message. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Something went wrong. Please try emailing directly at pinewoodarchit@gmail.com');
+      toast.error('Something went wrong. Please try emailing directly at avnisixc13@gmail.com');
     } finally {
       setLoading(false);
     }
@@ -60,13 +64,13 @@ const ContactSection = () => {
               </div>
               <div className="space-y-4">
                 <a
-                  href="mailto:pinewoodarchit@gmail.com"
+                  href="mailto: avnisixc13@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                 >
                   <Mail className="w-5 h-5 text-purple-200" />
-                  <span>pinewoodarchit@gmail.com</span>
+                  <span>avnisixc13@gmail.com</span>
                 </a>
                 <a
                   href="https://www.linkedin.com/in/avni-saini-0927a12b9/"
@@ -91,9 +95,6 @@ const ContactSection = () => {
 
             <div className="p-10 bg-slate-900">
               <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Hidden field for recipient email */}
-                <input type="hidden" name="email" value="pinewoodarchit@gmail.com" />
-
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-1">Name</label>
                   <input
