@@ -1,13 +1,17 @@
+import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { HeroScene } from '../3d/HeroScene';
 
-export function HeroSection() {
+import { HeroScene } from '../3d';
+
+const HeroSection = () => {
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-      <HeroScene />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HeroScene />
+      </Suspense>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -28,11 +32,12 @@ export function HeroSection() {
               </a>
             </div>
           </motion.div>
+          {/* The 3D element acts as the visual interest on the right for desktop, 
+              but we keep text readable by positioning it on the left. */}
         </div>
       </div>
-      
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 1.5 }}
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
@@ -43,6 +48,6 @@ export function HeroSection() {
       </motion.div>
     </section>
   );
-}
+};
 
-
+export default HeroSection;

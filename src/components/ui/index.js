@@ -1,5 +1,5 @@
-export { Navbar } from './Navbar';
-export { ProjectCard } from './ProjectCard';
-export { ExperienceCard } from './ExperienceCard';
+// src/components/ui/index.js
 
-
+export { default as Navbar } from './Navbar';
+export { default as ProjectCard } from './ProjectCard';
+export { default as ExperienceCard } from './ExperienceCard';

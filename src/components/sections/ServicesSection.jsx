@@ -1,7 +1,8 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Palette, Megaphone, Share2 } from 'lucide-react';
 
-export function ServicesSection() {
+const ServicesSection = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-slate-900 to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -32,6 +33,6 @@ export function ServicesSection() {
       </div>
     </section>
   );
-}
+};
 
-
+export default ServicesSection;

@@ -1,7 +1,31 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import {
+  ChevronRight,
+  Palette,
+  Smartphone,
+  Calendar,
+  Megaphone,
+  Share2,
+  Layers,
+  PenTool
+} from 'lucide-react';
 
-export function ProjectCard({ item }) {
+// Icon mapping object
+const iconMap = {
+  Palette,
+  Smartphone,
+  Calendar,
+  Megaphone,
+  Share2,
+  Layers,
+  PenTool
+};
+
+const ProjectCard = ({ item }) => {
+  // Get the icon component based on the icon name string
+  const IconComponent = iconMap[item.icon] || Palette;
+
   return (
     <motion.div
       layout
@@ -15,7 +39,7 @@ export function ProjectCard({ item }) {
         {/* Abstract Pattern Overlay */}
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="z-10 transform group-hover:scale-110 transition-transform duration-500">
-          {item.icon}
+          <IconComponent className="w-8 h-8 text-white" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-900/90 to-transparent">
           <h3 className="text-xl font-bold text-white">{item.title}</h3>
@@ -36,6 +60,6 @@ export function ProjectCard({ item }) {
       </div>
     </motion.div>
   );
-}
+};
 
-
+export default ProjectCard;
