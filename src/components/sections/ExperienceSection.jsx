@@ -1,7 +1,8 @@
-import { experiences } from '../../data/constants';
-import { ExperienceCard } from '../ui/ExperienceCard';
+import React from 'react';
 
-export function ExperienceSection() {
+import { ExperienceCard } from '../ui';
+
+const ExperienceSection = ({ experiences }) => {
   return (
     <section id="experience" className="py-20 bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,6 +13,7 @@ export function ExperienceSection() {
             My professional journey and contributions to various organizations
           </p>
         </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {experiences.map((experience) => (
             <ExperienceCard key={experience.id} experience={experience} />
@@ -20,6 +22,6 @@ export function ExperienceSection() {
       </div>
     </section>
   );
-}
+};
 
-
+export default ExperienceSection;

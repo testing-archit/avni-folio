@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
-export function Navbar() {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -14,7 +14,6 @@ export function Navbar() {
               AVNI'S Studio
             </span>
           </div>
-
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a href="#home" className="hover:text-purple-400 transition-colors px-3 py-2 rounded-md text-sm font-medium text-white">Home</a>
@@ -26,7 +25,6 @@ export function Navbar() {
               </a>
             </div>
           </div>
-
           <div className="-mr-2 flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -37,7 +35,7 @@ export function Navbar() {
           </div>
         </div>
       </div>
-
+      
       {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
@@ -59,6 +57,6 @@ export function Navbar() {
       </AnimatePresence>
     </nav>
   );
-}
+};
 
-
+export default Navbar;

@@ -1,9 +1,9 @@
-export { HeroSection } from './HeroSection';
-export { AboutSection } from './AboutSection';
-export { ExperienceSection } from './ExperienceSection';
-export { PortfolioSection } from './PortfolioSection';
-export { ServicesSection } from './ServicesSection';
-export { ContactSection } from './ContactSection';
-export { Footer } from './Footer';
+// src/components/sections/index.js
 
-
+export { default as AboutSection } from './AboutSection';
+export { default as ContactSection } from './ContactSection';
+export { default as ExperienceSection } from './ExperienceSection';
+export { default as Footer } from './Footer';
+export { default as HeroSection } from './HeroSection';
+export { default as PortfolioSection } from './PortfolioSection';
+export { default as ServicesSection } from './ServicesSection';

@@ -1,6 +1,47 @@
+import React, { useState } from 'react';
 import { Mail, Linkedin, Instagram } from 'lucide-react';
+import toast from 'react-hot-toast';
 
-export function ContactSection() {
+const ContactSection = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+
+    // Web3Forms access key from environment variable
+    // Get your free access key from: https://web3forms.com (enter pinewoodarchit@gmail.com)
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '66d4a5d1-9092-459b-abbd-a138ca626eaa';
+
+    formData.append('access_key', accessKey);
+    formData.append('subject', `Portfolio Contact from ${formData.get('name')}`);
+    formData.append('from_name', 'Avni Portfolio');
+    formData.append('redirect', 'false');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success('Message sent successfully! I\'ll get back to you soon.');
+        e.target.reset();
+      } else {
+        toast.error('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Something went wrong. Please try emailing directly at pinewoodarchit@gmail.com');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-slate-950 relative overflow-hidden">
       {/* Background Gradients */}
@@ -18,27 +59,27 @@ export function ContactSection() {
                 </p>
               </div>
               <div className="space-y-4">
-                <a 
-                  href="mailto:avnisixc13@gmail.com" 
-                  target="_blank" 
+                <a
+                  href="mailto:pinewoodarchit@gmail.com"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                 >
                   <Mail className="w-5 h-5 text-purple-200" />
-                  <span>avnisixc13@gmail.com</span>
+                  <span>pinewoodarchit@gmail.com</span>
                 </a>
-                <a 
-                  href="https://www.linkedin.com/in/avni-saini-0927a12b9/" 
-                  target="_blank" 
+                <a
+                  href="https://www.linkedin.com/in/avni-saini-0927a12b9/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                 >
                   <Linkedin className="w-5 h-5 text-purple-200" />
                   <span>linkedin.com/in/avni-saini</span>
                 </a>
-                <a 
-                  href="https://instagram.com/damnitavni" 
-                  target="_blank" 
+                <a
+                  href="https://instagram.com/damnitavni"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
                 >
@@ -49,36 +90,49 @@ export function ContactSection() {
             </div>
 
             <div className="p-10 bg-slate-900">
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* Hidden field for recipient email */}
+                <input type="hidden" name="email" value="pinewoodarchit@gmail.com" />
+
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-1">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Your Name" 
+                    placeholder="Your Name"
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
+                  <label htmlFor="sender_email" className="block text-sm font-medium text-slate-400 mb-1">Email</label>
+                  <input
+                    type="email"
+                    id="sender_email"
+                    name="sender_email"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="your@email.com" 
+                    placeholder="your@email.com"
+                    required
                   />
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-1">Message</label>
-                  <textarea 
-                    id="message" 
-                    rows={4} 
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Tell me about your project..." 
+                    placeholder="Tell me about your project..."
+                    required
                   />
                 </div>
-                <button type="submit" className="w-full bg-white text-slate-900 font-bold py-3 rounded-lg hover:bg-purple-50 transition-colors">
-                  Send Message
+                <button
+                  type="submit"
+                  className="w-full bg-white text-slate-900 font-bold py-3 rounded-lg hover:bg-purple-50 transition-colors disabled:opacity-50"
+                  disabled={loading}
+                >
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
@@ -87,6 +141,6 @@ export function ContactSection() {
       </div>
     </section>
   );
-}
+};
 
-
+export default ContactSection;
