@@ -16,6 +16,7 @@ router.post('/', validateContactForm, handleValidationErrors, async (req, res) =
     const userAgent = req.headers['user-agent'];
 
     try {
+        // 1. Save to database
         const result = await pool.query(
             `INSERT INTO contacts (name, email, message, ip_address, user_agent)
        VALUES ($1, $2, $3, $4, $5)
@@ -24,6 +25,8 @@ router.post('/', validateContactForm, handleValidationErrors, async (req, res) =
         );
 
         const contact = result.rows[0];
+
+        console.log(`✉️  New contact form submission from ${name} (${email})`);
 
         res.status(201).json({
             success: true,
@@ -35,8 +38,6 @@ router.post('/', validateContactForm, handleValidationErrors, async (req, res) =
                 submittedAt: contact.submitted_at
             }
         });
-
-        console.log(`✉️  New contact form submission from ${name} (${email})`);
 
     } catch (error) {
         console.error('Error saving contact:', error);
