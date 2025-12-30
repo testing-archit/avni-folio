@@ -1,49 +1,23 @@
-import React, { useState, Suspense } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-import {
-    Navbar,
-    ProjectCard,
-    ExperienceCard,
-} from './components/ui';
-
-import {
-    AboutSection,
-    ContactSection,
-    ExperienceSection,
-    Footer,
-    HeroSection,
-    PortfolioSection,
-    ServicesSection,
-} from './components/sections';
-
-import { categories, portfolioItems, experiences } from './data/constants';
+import { Navbar } from './components/ui';
+import { Footer } from './components/sections';
+import { Home, Resume } from './pages';
 
 export default function App() {
-    const [filter, setFilter] = useState("All");
-
-    const filteredItems =
-        filter === "All"
-            ? portfolioItems
-            : portfolioItems.filter((item) => item.category === filter);
-
     return (
         <div className="bg-slate-900 min-h-screen text-slate-100 font-sans selection:bg-purple-500 selection:text-white">
-            <Toaster />
-            <Navbar />
-            <HeroSection />
-            <AboutSection />
-            <ExperienceSection experiences={experiences} />
-            <PortfolioSection
-                categories={categories}
-                filter={filter}
-                setFilter={setFilter}
-                filteredItems={filteredItems}
-            />
-            <ServicesSection />
-            <ContactSection />
-            <Footer />
+            <Router>
+                <Toaster />
+                <Navbar />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/resume" element={<Resume />} />
+                </Routes>
+                <Footer />
+            </Router>
         </div>
     );
 }
