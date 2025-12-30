@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { Navbar } from './components/ui';
 import { Footer } from './components/sections';
-import { Home, Resume } from './pages';
+import { Home, Resume, ProjectDetails } from './pages';
 
 export default function App() {
     return (
@@ -15,6 +15,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/resume" element={<Resume />} />
+                    <Route path="/project/:id" element={<ProjectDetails />} />
                 </Routes>
                 <Footer />
             </Router>

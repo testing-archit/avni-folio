@@ -20,6 +20,8 @@ export const portfolioItems = [
     description: "App logo design for modern cooking assistance.",
     tags: ["App Design", "Branding", "Minimalist"],
     color: "from-orange-400 to-red-500",
+    image: "/images/projects/smart-chef.png", // Add your image path here (e.g., "/images/projects/project.jpg")
+    gallery: [], // Add multiple image paths here for the details view
     page: "Page 3"
   },
   {
@@ -30,6 +32,8 @@ export const portfolioItems = [
     description: "Logo for a meditation and mindfulness application.",
     tags: ["Health", "App", "Serenity"],
     color: "from-teal-400 to-blue-500",
+    image: null,
+    gallery: [],
     page: "Page 4"
   },
   // Events
@@ -41,6 +45,8 @@ export const portfolioItems = [
     description: "Future-tech event branding. <THE FUTURE IS HERE/>",
     tags: ["Tech", "Conference", "Futuristic"],
     color: "from-blue-600 to-indigo-700",
+    image: null,
+    gallery: [],
     page: "Page 6"
   },
   {
@@ -51,6 +57,8 @@ export const portfolioItems = [
     description: "Republic Day celebration. Unite, Celebrate, and Salute.",
     tags: ["Cultural", "Patriotic", "Poster"],
     color: "from-orange-500 to-green-600",
+    image: null,
+    gallery: [],
     page: "Page 8"
   },
   {
@@ -61,6 +69,8 @@ export const portfolioItems = [
     description: "Musical event by Student Cabinet. Love is in the air.",
     tags: ["Music", "Concert", "Night"],
     color: "from-purple-500 to-pink-500",
+    image: null,
+    gallery: [],
     page: "Page 9"
   },
   {
@@ -71,6 +81,8 @@ export const portfolioItems = [
     description: "Research Hackathon & Innovation Challenge.",
     tags: ["Hackathon", "Innovation", "Tech"],
     color: "from-blue-500 to-cyan-500",
+    image: null,
+    gallery: [],
     page: "Page 12"
   },
   {
@@ -81,6 +93,8 @@ export const portfolioItems = [
     description: "Digitalized System for Ministry of Coal. Dashboard UI & Branding.",
     tags: ["UI/UX", "Government", "Digital"],
     color: "from-slate-600 to-slate-800",
+    image: null,
+    gallery: [],
     page: "Page 14"
   },
   // Advertising
@@ -92,6 +106,8 @@ export const portfolioItems = [
     description: "Promotional assets for Coca-Cola, Grabon, and Unstop.",
     tags: ["Sponsorship", "Marketing", "Corporate"],
     color: "from-red-600 to-red-800",
+    image: null,
+    gallery: [],
     page: "Page 18"
   },
   // Social
@@ -103,6 +119,8 @@ export const portfolioItems = [
     description: "Recruitment campaign posts for fellowship program.",
     tags: ["Social Media", "Hiring", "Youth"],
     color: "from-yellow-400 to-orange-500",
+    image: null,
+    gallery: [],
     page: "Page 20"
   },
   {
@@ -113,6 +131,8 @@ export const portfolioItems = [
     description: "Where creativity runs wild and everyone's invited to play.",
     tags: ["Community", "Creative", "Fun"],
     color: "from-indigo-500 to-purple-600",
+    image: null,
+    gallery: [],
     page: "Page 23"
   }
 ];

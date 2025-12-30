@@ -11,68 +11,30 @@ const ContactSection = () => {
 
     const formData = new FormData(e.target);
 
-    // Prepare data for backend API
-    const contactData = {
-      name: formData.get('name'),
-      email: formData.get('sender_email'),
-      message: formData.get('message')
-    };
+    // Web3Forms configuration
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '9989c355-4719-4fdc-b62e-7509e83cb469';
+    formData.append('access_key', accessKey);
+    formData.append('subject', `Portfolio Contact from ${formData.get('name')}`);
+    formData.append('from_name', formData.get('name'));
 
     try {
-      // 1. Send to Web3Forms for email delivery (bypasses Cloudflare in browser)
-      const web3FormData = new FormData();
-      web3FormData.append('access_key', '9989c355-4719-4fdc-b62e-7509e83cb469');
-      web3FormData.append('email', 'avnisixc13@gmail.com');
-      web3FormData.append('name', contactData.name);
-      web3FormData.append('sender_email', contactData.email);
-      web3FormData.append('message', contactData.message);
-      web3FormData.append('subject', `Portfolio Contact from ${contactData.name}`);
-
-      const web3Promise = fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: web3FormData
+        body: formData
       });
 
-      // 2. Save to database via backend API
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const backendPromise = fetch(`${API_URL}/api/contacts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(contactData)
-      });
+      const data = await response.json();
 
-      // Wait for both requests
-      const [web3Response, backendResponse] = await Promise.all([web3Promise, backendPromise]);
-
-      // Check backend response
-      const backendData = await backendResponse.json();
-
-      // Check Web3Forms response (optional - email is bonus)
-      let emailSent = false;
-      try {
-        const web3Data = await web3Response.json();
-        emailSent = web3Data.success;
-      } catch (err) {
-        console.warn('Web3Forms response parsing failed, but continuing');
-      }
-
-      if (backendData.success) {
+      if (data.success) {
         toast.success('Message sent successfully! I\'ll get back to you soon.');
         e.target.reset();
-        console.log(`✅ Saved to database${emailSent ? ' and email sent' : ''}`);
       } else {
-        // Handle validation errors
-        if (backendData.errors && backendData.errors.length > 0) {
-          toast.error(backendData.errors[0].message);
-        } else {
-          toast.error(backendData.message || 'Failed to send message. Please try again.');
-        }
+        toast.error(data.message || 'Something went wrong. Please try again.');
+        console.error('Web3Forms response:', data);
       }
     } catch (error) {
-      console.error('Error:', error);
-      toast.error('Cannot connect to server. Please try emailing directly at avnisixc13@gmail.com');
+      console.error('Submission Error:', error);
+      toast.error('Failed to send message. Please check your internet connection.');
     } finally {
       setLoading(false);
     }
