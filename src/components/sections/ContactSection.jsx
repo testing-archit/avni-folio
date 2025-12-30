@@ -12,7 +12,7 @@ const ContactSection = () => {
     const formData = new FormData(e.target);
 
     // Web3Forms configuration
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '9989c355-4719-4fdc-b62e-7509e83cb469';
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
     formData.append('access_key', accessKey);
     formData.append('subject', `Portfolio Contact from ${formData.get('name')}`);
     formData.append('from_name', formData.get('name'));
