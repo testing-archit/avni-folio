@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const AboutSection = () => {
@@ -56,7 +57,7 @@ const AboutSection = () => {
                 With each project, I aim to tell a story that feels thoughtful, modern,
                 and uniquely crafted.
               </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 <div className="text-center p-4 bg-slate-900/50 rounded-xl">
                   <h3 className="text-3xl font-bold text-white mb-1">20+</h3>
                   <p className="text-slate-400 text-sm">Projects</p>
@@ -70,6 +71,12 @@ const AboutSection = () => {
                   <p className="text-slate-400 text-sm">Concept to Creation</p>
                 </div>
               </div>
+              <Link
+                to="/resume"
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-purple-500/50"
+              >
+                View Full Resume
+              </Link>
             </div>
           </div>
         </motion.div>

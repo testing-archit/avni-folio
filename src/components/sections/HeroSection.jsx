@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import { HeroScene } from '../3d';
@@ -30,6 +31,9 @@ const HeroSection = () => {
               <a href="#contact" className="px-8 py-3 border border-white/30 backdrop-blur-sm text-white font-medium rounded-full hover:bg-white/10 transition-colors">
                 Contact Me
               </a>
+              <Link to="/resume" className="px-8 py-3 border border-purple-400/50 backdrop-blur-sm text-purple-300 font-medium rounded-full hover:bg-purple-500/10 transition-colors">
+                View Resume
+              </Link>
             </div>
           </motion.div>
           {/* The 3D element acts as the visual interest on the right for desktop, 
