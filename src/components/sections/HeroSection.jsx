@@ -28,12 +28,12 @@ const HeroSection = () => {
               <a href="#portfolio" className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg">
                 See My Work
               </a>
+              <Link to="/resume" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg shadow-purple-500/50">
+                View Resume
+              </Link>
               <a href="#contact" className="px-8 py-3 border border-white/30 backdrop-blur-sm text-white font-medium rounded-full hover:bg-white/10 transition-colors">
                 Contact Me
               </a>
-              <Link to="/resume" className="px-8 py-3 border border-purple-400/50 backdrop-blur-sm text-purple-300 font-medium rounded-full hover:bg-purple-500/10 transition-colors">
-                View Resume
-              </Link>
             </div>
           </motion.div>
           {/* The 3D element acts as the visual interest on the right for desktop, 
