@@ -25,10 +25,10 @@ export default function ExperienceSection() {
         <p>Work and campus leadership.</p>
       </div>
       <div className="experience-list">
-        {[...employment, ...leadership, ...previousRoles].map(({ title, subtitle, period, points }) => (
+        {[...employment, ...leadership, ...previousRoles].map(({ title, subtitle, website, period, points }) => (
           <details className="experience-item" key={title}>
             <summary>
-              <span className="experience-role"><strong>{title}</strong><span>{subtitle}</span></span>
+              <span className="experience-role"><strong>{title}</strong><span>{website ? <a className="company-link" href={website}>{subtitle}</a> : subtitle}</span></span>
               <span className="experience-period">{period}</span>
               <Plus size={19} aria-hidden="true" />
             </summary>

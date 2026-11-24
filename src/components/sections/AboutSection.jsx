@@ -8,7 +8,8 @@ export default function AboutSection() {
     <section id="about" className="about-band" aria-labelledby="about-title">
       <div className="wrap section about-layout">
         <div className="about-portraits">
-          <Image src="/images/avni/on-camera.webp" alt="Avni presenting to camera in a pink shirt" width={540} height={740} sizes="(max-width: 700px) 48vw, 290px" />
+          <Image src="/images/avni/sunflower.webp" alt="Avni holding a sunflower on a lawn" width={900} height={1200} sizes="(max-width: 700px) 48vw, 290px" />
+          <Image src="/images/avni/garden.webp" alt="Avni outdoors in a striped sweater" width={900} height={1200} sizes="(max-width: 700px) 40vw, 235px" />
           <Image src="/images/avni/candid-portrait.webp" alt="Avni smiling during a car ride" width={575} height={770} sizes="(max-width: 700px) 40vw, 235px" />
         </div>
         <div className="about-copy">

@@ -4,6 +4,7 @@ export const portfolioItems = [
   {
     id: 1,
     slug: 'smart-chef',
+    motion: true,
     caseStudy: {
       role: 'Lead designer and branding specialist',
       duration: 'Two weeks',
@@ -38,6 +39,7 @@ export const portfolioItems = [
   {
     id: 3,
     slug: 'mobile-next-2025',
+    motion: true,
     title: 'Mobile Next 2025',
     category: 'Events',
     discipline: 'Event identity',

@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ProjectCover from '../../../components/ui/ProjectCover';
+import ProjectMotion from '../../../components/ui/ProjectMotion';
 import ProjectGallery from '../../../components/ui/ProjectGallery';
 import StructuredData from '../../../components/ui/StructuredData';
 import { portfolioItems } from '../../../data/constants';
@@ -51,8 +52,8 @@ export default async function ProjectDetails({ params }) {
         <p>{project.description}</p>
       </header>
       <figure className="project-feature">
-        <ProjectCover item={project} eager />
-        <figcaption>{project.image ? 'Project artwork' : 'Editorial cover'}</figcaption>
+        {project.motion ? <ProjectMotion project={project} /> : <ProjectCover item={project} eager />}
+        <figcaption>{project.motion ? 'Animated portfolio cover' : project.image ? 'Project artwork' : 'Editorial cover'}</figcaption>
       </figure>
       <div className="project-story">
         <section aria-labelledby="project-overview">

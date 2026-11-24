@@ -43,7 +43,7 @@ function ResumeEntry({ entry }) {
   return (
     <article className="resume-entry">
       <div className="resume-entry-header">
-        <div><h3>{entry.href ? <Link href={entry.href} className="resume-project-link">{title}</Link> : title}</h3><p>{subtitle}</p></div>
+        <div><h3>{entry.href ? <Link href={entry.href} className="resume-project-link">{title}</Link> : title}</h3><p>{entry.website ? <a className="company-link" href={entry.website}>{subtitle}</a> : subtitle}</p></div>
         <div className="resume-entry-meta"><p>{period}</p>{location && <p>{location}</p>}</div>
       </div>
       {tools && <p className="resume-tools">{tools}</p>}

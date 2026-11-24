@@ -25,6 +25,7 @@ export const employment = [
   {
     title: 'Founder’s Office Intern',
     subtitle: 'OCTARAA Dhansamriddhi Finvest Pvt. Ltd.',
+    website: 'https://octaraa.com/',
     period: 'Jun 2026 – Present',
     location: 'Gurgaon, Haryana',
     points: [

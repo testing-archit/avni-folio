@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import BackgroundMusic from './BackgroundMusic';
 import { usePathname } from 'next/navigation';
 
 const sections = [
@@ -41,6 +42,7 @@ export default function Navbar() {
           <span className="brand-flower" aria-hidden="true" />
           <span>Avni Saini</span>
         </SectionLink>
+        <BackgroundMusic />
         <button
           className="menu-toggle icon-button"
           type="button"
