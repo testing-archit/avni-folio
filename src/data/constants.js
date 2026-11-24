@@ -3,6 +3,12 @@ export const categories = ['All', 'Logos', 'Events', 'Advertising', 'Social Medi
 export const portfolioItems = [
   {
     id: 1,
+    slug: 'smart-chef',
+    caseStudy: {
+      role: 'Lead designer and branding specialist',
+      duration: 'Two weeks',
+      process: 'I compared cooking apps and explored more than 15 logo concepts using mood boards. I chose a chef’s hat and warm colors so the mark would read as a cooking app even at icon size.',
+    },
     title: 'Smart Chef',
     category: 'Logos',
     discipline: 'App identity',
@@ -14,6 +20,12 @@ export const portfolioItems = [
   },
   {
     id: 2,
+    slug: 'calm-zone',
+    caseStudy: {
+      role: 'UI/UX designer',
+      duration: 'Three weeks',
+      process: 'I explored teal and blue palettes and tested the flow with interactive prototypes. Rounded shapes and a breathing animation became recurring parts of the interface.',
+    },
     title: 'Calm Zone',
     category: 'Logos',
     discipline: 'Wellness app identity',
@@ -25,6 +37,7 @@ export const portfolioItems = [
   },
   {
     id: 3,
+    slug: 'mobile-next-2025',
     title: 'Mobile Next 2025',
     category: 'Events',
     discipline: 'Event identity',
@@ -36,6 +49,7 @@ export const portfolioItems = [
   },
   {
     id: 4,
+    slug: 'swaraj-symphony',
     title: 'Swaraj Symphony',
     category: 'Events',
     discipline: 'Cultural event visuals',
@@ -47,6 +61,7 @@ export const portfolioItems = [
   },
   {
     id: 5,
+    slug: 'tune-e-taal',
     title: 'Tune-E-Taal',
     category: 'Events',
     discipline: 'Music event visuals',
@@ -58,6 +73,12 @@ export const portfolioItems = [
   },
   {
     id: 6,
+    slug: 'rescon-4-0',
+    caseStudy: {
+      role: 'Brand designer and event marketing lead',
+      duration: 'Three weeks',
+      process: 'I developed a visual guide and templates for posters, social posts, digital certificates, and sponsor materials. The organizing team used them to carry the same identity from a phone screen to a venue banner.',
+    },
     title: 'ResCon 4.0',
     category: 'Events',
     discipline: 'Hackathon branding',
@@ -69,6 +90,12 @@ export const portfolioItems = [
   },
   {
     id: 7,
+    slug: 'coal-vision',
+    caseStudy: {
+      role: 'Lead UI/UX designer',
+      duration: 'One month',
+      process: 'I mapped the workflows for tracking coal resources and grouped the dashboard into production, distribution, inventory, and analytics. A consistent card layout lets users compare figures across those views.',
+    },
     title: 'Coal Vision',
     category: 'Events',
     discipline: 'Dashboard design',
@@ -80,6 +107,7 @@ export const portfolioItems = [
   },
   {
     id: 8,
+    slug: 'brand-partners',
     title: 'Brand Partners',
     category: 'Advertising',
     discipline: 'Sponsor promotions',
@@ -91,6 +119,7 @@ export const portfolioItems = [
   },
   {
     id: 9,
+    slug: 'ambassador-fellowship',
     title: 'Ambassador Fellowship',
     category: 'Social Media',
     discipline: 'Recruitment campaign',
@@ -102,6 +131,7 @@ export const portfolioItems = [
   },
   {
     id: 10,
+    slug: 'creators-playground',
     title: 'Creator’s Playground',
     category: 'Social Media',
     discipline: 'Community campaign',
@@ -113,6 +143,7 @@ export const portfolioItems = [
   },
   {
     id: 11,
+    slug: 'rail-ledger',
     title: 'Rail Ledger',
     category: 'Development',
     discipline: 'Smart India Hackathon 2025',
@@ -128,6 +159,7 @@ export const portfolioItems = [
   },
   {
     id: 12,
+    slug: 'ecocred',
     title: 'EcoCred',
     category: 'Development',
     discipline: 'Carbon credit platform',

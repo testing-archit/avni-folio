@@ -8,7 +8,7 @@ import ServicesSection from '../components/sections/ServicesSection';
 import StructuredData from '../components/ui/StructuredData';
 import { pageMetadata, person, siteDescription, siteUrl } from '../data/site';
 
-const title = 'Avni Saini | Visual Designer';
+const title = 'Avni Saini | Visual Designer in Greater Noida';
 export const metadata = { ...pageMetadata('/', title, siteDescription), title: { absolute: title } };
 
 export default function Home() {

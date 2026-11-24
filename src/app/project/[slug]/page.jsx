@@ -11,21 +11,21 @@ import { pageMetadata, person, siteUrl } from '../../../data/site';
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return portfolioItems.map(({ id }) => ({ id: String(id) }));
+  return portfolioItems.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({ params }) {
-  const { id } = await params;
-  const project = portfolioItems.find((item) => String(item.id) === id);
+  const { slug } = await params;
+  const project = portfolioItems.find((item) => item.slug === slug);
 
   if (!project) notFound();
 
-  return pageMetadata(`/project/${id}`, project.title, project.description);
+  return pageMetadata(`/project/${slug}`, `${project.title} — ${project.discipline}`, project.description);
 }
 
 export default async function ProjectDetails({ params }) {
-  const { id } = await params;
-  const index = portfolioItems.findIndex((item) => String(item.id) === id);
+  const { slug } = await params;
+  const index = portfolioItems.findIndex((item) => item.slug === slug);
   const project = portfolioItems[index];
 
   if (!project) notFound();
@@ -40,7 +40,7 @@ export default async function ProjectDetails({ params }) {
         '@type': 'CreativeWork',
         name: project.title,
         description: project.description,
-        url: new URL(`/project/${id}`, siteUrl).href,
+        url: new URL(`/project/${slug}`, siteUrl).href,
         creator: { '@id': person['@id'], '@type': 'Person', name: person.name },
         ...(project.image && { image: new URL(project.image, siteUrl).href }),
       }} />
@@ -66,9 +66,21 @@ export default async function ProjectDetails({ params }) {
           <ul className="tags">{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
         </section>
       </div>
+      {project.caseStudy && (
+        <section className="project-story" aria-labelledby="design-process">
+          <div>
+            <h2 id="design-process">Design process</h2>
+            <p>{project.caseStudy.process}</p>
+          </div>
+          <div>
+            <h2>My role</h2>
+            <p>{project.caseStudy.role}<br />{project.caseStudy.duration}</p>
+          </div>
+        </section>
+      )}
       {images.length > 0 && <ProjectGallery key={project.id} project={project} images={images} />}
       <nav aria-label="Next project">
-        <Link className="next-project" href={`/project/${next.id}`}>
+        <Link className="next-project" href={`/project/${next.slug}`}>
           <div><span>Next project <ArrowRight size={15} aria-hidden="true" /></span><strong>{next.title}</strong></div>
           <span className="icon-button" aria-hidden="true"><ArrowUpRight size={26} /></span>
         </Link>

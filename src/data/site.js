@@ -6,7 +6,7 @@ export const siteUrl = new URL(
   process.env.SITE_URL || (productionDomain ? `https://${productionDomain}` : 'http://localhost:3000')
 );
 export const siteTitle = 'Avni Saini';
-export const siteDescription = 'Avni Saini is a visual designer and computer science student. Explore her work in brand identity, event graphics, and digital products.';
+export const siteDescription = 'Explore Avni Saini’s brand identities, event graphics, and software projects. Avni is a visual designer and computer science student at Bennett University in Greater Noida.';
 export const isPreview = process.env.VERCEL_ENV === 'preview';
 
 export const person = {

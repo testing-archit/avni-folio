@@ -8,8 +8,8 @@ export default function HeroSection() {
     <section id="home" className="hero" aria-labelledby="hero-title">
       <div className="wrap hero-layout">
         <div className="hero-copy">
-          <p className="hero-intro"><span className="brand-flower" aria-hidden="true" /> Hi, I’m Avni Saini</p>
-          <h1 id="hero-title">Design with<br />feeling.</h1>
+          <h1 id="hero-title" className="hero-intro"><span className="brand-flower" aria-hidden="true" /> Avni Saini, visual designer</h1>
+          <p className="hero-display">Design with<br />feeling.</p>
           <p className="hero-description">
             I design brand identities, event graphics, and digital experiences. I’m also a computer science student.
           </p>

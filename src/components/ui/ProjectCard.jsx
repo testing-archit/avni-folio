@@ -6,7 +6,7 @@ import ProjectCover from './ProjectCover';
 export default function ProjectCard({ item }) {
   return (
     <article className="project-card">
-      <Link href={`/project/${item.id}`}>
+      <Link href={`/project/${item.slug}`}>
         <ProjectCover item={item} />
         <div className="project-card-details">
           <div>
