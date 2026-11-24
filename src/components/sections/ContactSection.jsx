@@ -62,8 +62,8 @@ export default function ContactSection({ accessKey }) {
           <p>Have a project in mind? Tell me what you’re working on.</p>
           <a className="contact-email" href={`mailto:${contact.email}`}><Mail size={19} aria-hidden="true" /> {contact.email}</a>
           <div className="social-links">
-            <a href={contact.linkedin} className="icon-button" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} aria-hidden="true" /></a>
             <a href={contact.instagram} className="icon-button" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={19} aria-hidden="true" /></a>
+            <a href={contact.linkedin} className="icon-button" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} aria-hidden="true" /></a>
           </div>
         </div>
         <form
