@@ -1,27 +1,41 @@
 import React from 'react';
+import { Plus } from 'lucide-react';
+import { employment, leadership } from '../../data/resume';
 
-import { ExperienceCard } from '../ui';
+const previousRoles = [
+  {
+    title: 'Core Team Member, Design',
+    subtitle: 'SPARK, E-Cell',
+    period: 'Jul – Nov 2025',
+    points: ['Designed branding and promotional materials for campus entrepreneurship events, workshops, and competitions.'],
+  },
+  {
+    title: 'Junior Core Member, Design',
+    subtitle: 'Bennett Undergraduate Research Society',
+    period: 'Nov 2024 – May 2025',
+    points: ['Designed visuals and digital content for research events, workshops, and outreach campaigns.'],
+  },
+];
 
-const ExperienceSection = ({ experiences }) => {
+export default function ExperienceSection() {
   return (
-    <section id="experience" className="py-20 bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">Experience</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-8"></div>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            My professional journey and contributions to various organizations
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {experiences.map((experience) => (
-            <ExperienceCard key={experience.id} experience={experience} />
-          ))}
-        </div>
+    <section id="experience" className="wrap section experience-layout" aria-labelledby="experience-title">
+      <div className="section-heading">
+        <h2 id="experience-title">Experience</h2>
+        <p>Work and campus leadership.</p>
+      </div>
+      <div className="experience-list">
+        {[...employment, ...leadership, ...previousRoles].map(({ title, subtitle, period, points }) => (
+          <details className="experience-item" key={title}>
+            <summary>
+              <span className="experience-role"><strong>{title}</strong><span>{subtitle}</span></span>
+              <span className="experience-period">{period}</span>
+              <Plus size={19} aria-hidden="true" />
+            </summary>
+            <ul>{points.map((point) => <li key={point}>{point}</li>)}</ul>
+          </details>
+        ))}
       </div>
     </section>
   );
-};
-
-export default ExperienceSection;
+}

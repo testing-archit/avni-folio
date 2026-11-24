@@ -1,57 +1,31 @@
-import React, { Suspense } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import { HeroScene } from '../3d';
-
-const HeroSection = () => {
+export default function HeroSection() {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-      <Suspense fallback={<div>Loading...</div>}>
-        <HeroScene />
-      </Suspense>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-left"
-          >
-            <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
-              I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Avni Saini</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-slate-300 mb-8 font-light">
-              A Creative Designer specializing in Brand Identity, Event Visuals, and Digital Experiences.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#portfolio" className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg">
-                See My Work
-              </a>
-              <Link to="/resume" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg shadow-purple-500/50">
-                View Resume
-              </Link>
-              <a href="#contact" className="px-8 py-3 border border-white/30 backdrop-blur-sm text-white font-medium rounded-full hover:bg-white/10 transition-colors">
-                Contact Me
-              </a>
-            </div>
-          </motion.div>
-          {/* The 3D element acts as the visual interest on the right for desktop, 
-              but we keep text readable by positioning it on the left. */}
+    <section id="home" className="hero" aria-labelledby="hero-title">
+      <div className="wrap hero-layout">
+        <div className="hero-copy">
+          <p className="hero-intro"><span className="brand-flower" aria-hidden="true" /> Hi, I’m Avni Saini</p>
+          <h1 id="hero-title">Design with<br />feeling.</h1>
+          <p className="hero-description">
+            I design brand identities, event graphics, and digital experiences. I’m also a computer science student.
+          </p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="#portfolio">Explore my work <ArrowDown size={18} aria-hidden="true" /></a>
+            <Link className="button button-outline" href="/resume">View résumé <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </div>
         </div>
+        <figure className="portrait">
+          <div className="portrait-frame">
+            <Image src="/profile-image.jpeg" alt="Avni Saini" fill sizes="(max-width: 700px) 70vw, 372px" preload />
+          </div>
+          <span className="brand-flower portrait-flower" aria-hidden="true" />
+          <figcaption>Visual designer <span aria-hidden="true">/</span> Greater Noida, India</figcaption>
+        </figure>
       </div>
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
-      >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-1">
-          <div className="w-1 h-2 bg-white rounded-full" />
-        </div>
-      </motion.div>
     </section>
   );
-};
-
-export default HeroSection;
+}

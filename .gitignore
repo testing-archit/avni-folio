@@ -30,3 +30,8 @@ dist-ssr
 .env.test.local
 .env.production.local
 
+
+# Next.js and Vercel
+.next/
+out/
+.vercel/

@@ -1,196 +1,146 @@
-import {
-  Palette,
-  Smartphone,
-  Calendar,
-  Megaphone,
-  Share2,
-  Layers,
-  PenTool
-} from 'lucide-react';
-
-export const categories = ["All", "Logos", "Events", "Advertising", "Social Media"];
+export const categories = ['All', 'Logos', 'Events', 'Advertising', 'Social Media', 'Development'];
 
 export const portfolioItems = [
-  // Logos
   {
     id: 1,
-    title: "Smart Chef",
-    category: "Logos",
-    icon: "Palette",
-    description: "App logo design for modern cooking assistance.",
-    tags: ["App Design", "Branding", "Minimalist"],
-    color: "from-orange-400 to-red-500",
-    image: "/images/projects/smart-chef.png", // Add your image path here (e.g., "/images/projects/project.jpg")
-    gallery: [], // Add multiple image paths here for the details view
-    page: "Page 3"
+    title: 'Smart Chef',
+    category: 'Logos',
+    discipline: 'App identity',
+    description: 'A visual identity for an app that helps you decide what to cook.',
+    tags: ['Logo design', 'Brand identity'],
+    cover: 'chef',
+    image: '/images/projects/smart-chef.png',
+    overview: 'Smart Chef recommends recipes based on the ingredients you have. Its logo combines a chef’s hat with a gear to bring cooking and technology into the same mark.',
   },
   {
     id: 2,
-    title: "Calm Zone",
-    category: "Logos",
-    icon: "Smartphone",
-    description: "Logo for a meditation and mindfulness application.",
-    tags: ["Health", "App", "Serenity"],
-    color: "from-teal-400 to-blue-500",
-    image: null,
-    gallery: [],
-    page: "Page 4"
+    title: 'Calm Zone',
+    category: 'Logos',
+    discipline: 'Wellness app identity',
+    description: 'A visual identity for a meditation and mindfulness app.',
+    tags: ['Logo design', 'Wellness', 'App design'],
+    cover: 'calm',
+    coverTitle: ['Calm', 'Zone'],
+    overview: 'Calm Zone is a mental wellness platform with breathing exercises, mood tracking, and guided thought sharing. The identity takes its cue from the app’s emphasis on calm, simple interactions.',
   },
-  // Events
   {
     id: 3,
-    title: "Mobile Next 2025",
-    category: "Events",
-    icon: "Calendar",
-    description: "Future-tech event branding. <THE FUTURE IS HERE/>",
-    tags: ["Tech", "Conference", "Futuristic"],
-    color: "from-blue-600 to-indigo-700",
-    image: null,
-    gallery: [],
-    page: "Page 6"
+    title: 'Mobile Next 2025',
+    category: 'Events',
+    discipline: 'Event identity',
+    description: 'A future-facing visual identity for a technology event.',
+    tags: ['Event branding', 'Technology'],
+    cover: 'mobile',
+    coverTitle: ['Mobile', 'Next'],
+    overview: 'Mobile Next 2025 used the line “<THE FUTURE IS HERE/>” to frame a technology event around what comes next. The visual identity drew on the language of software and the energy of a live campus event.',
   },
   {
     id: 4,
-    title: "Swaraj Symphony",
-    category: "Events",
-    icon: "Calendar",
-    description: "Republic Day celebration. Unite, Celebrate, and Salute.",
-    tags: ["Cultural", "Patriotic", "Poster"],
-    color: "from-orange-500 to-green-600",
-    image: null,
-    gallery: [],
-    page: "Page 8"
+    title: 'Swaraj Symphony',
+    category: 'Events',
+    discipline: 'Cultural event visuals',
+    description: 'Poster design for a Republic Day celebration.',
+    tags: ['Poster design', 'Event branding'],
+    cover: 'swaraj',
+    coverTitle: ['Swaraj', 'Symphony'],
+    overview: 'Swaraj Symphony brought students together for Republic Day. The event’s invitation, “Unite, Celebrate, and Salute,” supplied the central message for the poster.',
   },
   {
     id: 5,
-    title: "Tune-E-Taal",
-    category: "Events",
-    icon: "Calendar",
-    description: "Musical event by Student Cabinet. Love is in the air.",
-    tags: ["Music", "Concert", "Night"],
-    color: "from-purple-500 to-pink-500",
-    image: null,
-    gallery: [],
-    page: "Page 9"
+    title: 'Tune-E-Taal',
+    category: 'Events',
+    discipline: 'Music event visuals',
+    description: 'Visuals for a Student Cabinet music event.',
+    tags: ['Event branding', 'Music'],
+    cover: 'tune',
+    coverTitle: ['Tune-E-', 'Taal'],
+    overview: 'Tune-E-Taal was a musical event organized by the Student Cabinet. Its visuals centered on the theme “Love is in the air.”',
   },
   {
     id: 6,
-    title: "ResCon 4.0",
-    category: "Events",
-    icon: "Layers",
-    description: "Research Hackathon & Innovation Challenge.",
-    tags: ["Hackathon", "Innovation", "Tech"],
-    color: "from-blue-500 to-cyan-500",
-    image: null,
-    gallery: [],
-    page: "Page 12"
+    title: 'ResCon 4.0',
+    category: 'Events',
+    discipline: 'Hackathon branding',
+    description: 'A visual identity for a research hackathon and innovation challenge.',
+    tags: ['Visual identity', 'Event collateral'],
+    cover: 'rescon',
+    coverTitle: ['ResCon', '4.0'],
+    overview: 'ResCon 4.0 invited students to explore research through a hands-on innovation challenge. Bold typography and geometric patterns carried the event identity across posters, banners, and digital materials.',
   },
   {
     id: 7,
-    title: "Coal Vision",
-    category: "Events",
-    icon: "PenTool",
-    description: "Digitalized System for Ministry of Coal. Dashboard UI & Branding.",
-    tags: ["UI/UX", "Government", "Digital"],
-    color: "from-slate-600 to-slate-800",
-    image: null,
-    gallery: [],
-    page: "Page 14"
+    title: 'Coal Vision',
+    category: 'Events',
+    discipline: 'Dashboard design',
+    description: 'Dashboard UI and branding for a coal-sector data platform.',
+    tags: ['UI/UX', 'Data visualization'],
+    cover: 'coal',
+    coverTitle: ['Coal', 'Vision'],
+    overview: 'Coal Vision is a front-end platform designed to organize and visualize structured coal-sector data. The dashboard groups information into distinct areas so users can move between views more easily.',
   },
-  // Advertising
   {
     id: 8,
-    title: "Brand Partners",
-    category: "Advertising",
-    icon: "Megaphone",
-    description: "Promotional assets for Coca-Cola, Grabon, and Unstop.",
-    tags: ["Sponsorship", "Marketing", "Corporate"],
-    color: "from-red-600 to-red-800",
-    image: null,
-    gallery: [],
-    page: "Page 18"
+    title: 'Brand Partners',
+    category: 'Advertising',
+    discipline: 'Sponsor promotions',
+    description: 'Promotional assets for Coca-Cola, GrabOn, and Unstop.',
+    tags: ['Sponsorship', 'Marketing'],
+    cover: 'partners',
+    coverTitle: ['Brand', 'Partners'],
+    overview: 'A collection of sponsor promotions for Coca-Cola, GrabOn, and Unstop. Each piece needed to give the partner clear visibility within a larger event campaign.',
   },
-  // Social
   {
     id: 9,
-    title: "Ambassador Fellowship",
-    category: "Social Media",
-    icon: "Share2",
-    description: "Recruitment campaign posts for fellowship program.",
-    tags: ["Social Media", "Hiring", "Youth"],
-    color: "from-yellow-400 to-orange-500",
-    image: null,
-    gallery: [],
-    page: "Page 20"
+    title: 'Ambassador Fellowship',
+    category: 'Social Media',
+    discipline: 'Recruitment campaign',
+    description: 'Social posts to recruit participants for a fellowship program.',
+    tags: ['Social design', 'Recruitment'],
+    cover: 'fellowship',
+    coverTitle: ['Ambassador', 'Fellowship'],
+    overview: 'The campaign introduced the fellowship to potential ambassadors and invited them to apply through a series of recruitment posts.',
   },
   {
     id: 10,
-    title: "Creator's Playground",
-    category: "Social Media",
-    icon: "Share2",
-    description: "Where creativity runs wild and everyone's invited to play.",
-    tags: ["Community", "Creative", "Fun"],
-    color: "from-indigo-500 to-purple-600",
-    image: null,
-    gallery: [],
-    page: "Page 23"
-  }
+    title: 'Creator’s Playground',
+    category: 'Social Media',
+    discipline: 'Community campaign',
+    description: 'Social visuals for a creative community.',
+    tags: ['Social design', 'Community'],
+    cover: 'playground',
+    coverTitle: ['Creator’s', 'Playground'],
+    overview: 'Creator’s Playground used a playful visual direction to invite people to take part in a space for creative experimentation.',
+  },
+  {
+    id: 11,
+    title: 'Rail Ledger',
+    category: 'Development',
+    discipline: 'Smart India Hackathon 2025',
+    description: 'A centralized system for tracking railway components throughout their lifecycle.',
+    tags: ['Node.js', 'SQL', 'Docker'],
+    cover: 'rail',
+    coverTitle: ['Rail', 'Ledger'],
+    year: '2025',
+    resumePoints: [
+      'Developed a centralized system to track railway component lifecycles and improve safety.',
+      'Implemented role-based access control for secure and scalable data management.',
+    ],
+  },
+  {
+    id: 12,
+    title: 'EcoCred',
+    category: 'Development',
+    discipline: 'Carbon credit platform',
+    description: 'A blockchain platform for tracking and trading carbon credits.',
+    tags: ['Solidity', 'React', 'Node.js', 'PostgreSQL'],
+    cover: 'eco',
+    coverTitle: ['EcoCred'],
+    year: '2025',
+    resumePoints: [
+      'Built Ethereum smart contracts for decentralized carbon credit tracking and trading.',
+      'Implemented ERC-20 and ERC-721 tokens with DAO governance and marketplace features.',
+    ],
+  },
 ];
 
-import { processExperiences } from '../utils/dateUtils';
-
-// Raw experiences data with startDate and endDate (null for present positions)
-const rawExperiences = [
-  {
-    id: 1,
-    title: "Placom Volunteer for Batch 2028",
-    organization: "Career Services Center - Bennett University",
-    employmentType: "Full-time",
-    startDate: "2025-06-01", // Jun 2025
-    endDate: null, // Present
-    priority: 2, // Lower number = higher priority (appears first)
-    location: "Greater Noida · On-site",
-    description: "Supporting the Placement Cell for Batch 2028 by coordinating communication between students and the committee. Assisting with company interactions, placement drives, and recruitment-related activities while helping peers with queries and contributing to a smooth and organized placement process.",
-    color: "from-red-500 to-red-700"
-  },
-  {
-    id: 2,
-    title: "Deputy Minister of Design",
-    organization: "SCSET Student Cabinet, Bennett University",
-    employmentType: "Full-time",
-    startDate: "2025-08-01", // Aug 2025
-    endDate: null, // Present
-    priority: 1, // Lower number = higher priority (appears first)
-    location: "Greater Noida · On-site",
-    description: "Contributing to the university's creative direction by designing event visuals, branding elements, and digital content. I collaborate with various clubs and departments to maintain a consistent design identity and support campus initiatives with impactful visuals.",
-    color: "from-blue-500 to-indigo-600"
-  },
-  {
-    id: 3,
-    title: "Core Team Member - Design",
-    organization: "SPARK, E-Cell",
-    employmentType: "Full-time",
-    startDate: "2025-07-01", // Jul 2025
-    endDate: "2025-11-30", // Nov 2025
-    location: "Greater Noida · On-site",
-    description: "Designed branding and promotional content for entrepreneurship-focused events and initiatives. Collaborated with the team to create visually engaging assets that supported workshops, competitions, and startup-driven activities on campus.",
-    color: "from-blue-600 to-red-600"
-  },
-  {
-    id: 4,
-    title: "Junior Core Member - Design Department",
-    organization: "Bennett Undergraduate Research Society",
-    employmentType: "Full-time",
-    startDate: "2024-11-01", // Nov 2024
-    endDate: "2025-05-31", // May 2025
-    location: "Greater Noida · On-site",
-    description: "Contributed to the creative direction of BURS through designing visuals, branding elements, and digital content for community-driven initiatives. Collaborated with team members and mentors to support events, workshops, and outreach campaigns with impactful design assets. Gained hands-on experience in design strategy, content planning, and execution while working closely with BURS leadership to enhance communication, engagement, and community impact through thoughtful visuals.",
-    skills: ["Management", "Graphic Design"],
-    color: "from-red-600 to-slate-800"
-  }
-];
-
-// Process experiences to calculate duration and sort (Present first, then by date)
-export const experiences = processExperiences(rawExperiences);
-
-
+export const featuredProjectIds = [1, 3, 2, 6];

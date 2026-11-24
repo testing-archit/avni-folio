@@ -1,141 +1,96 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Mail, Linkedin, Instagram } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { ArrowUpRight, Instagram, Linkedin, Mail } from 'lucide-react';
+import { contact } from '../../data/resume';
 
-const ContactSection = () => {
-  const [loading, setLoading] = useState(false);
+const formEndpoint = 'https://api.web3forms.com/submit';
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+function getEmailDraft(formData) {
+  const name = formData.get('name');
+  const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
+  const body = encodeURIComponent(`${formData.get('message')}\n\n${name}\n${formData.get('email')}`);
+  return `mailto:${contact.email}?subject=${subject}&body=${body}`;
+}
 
-    const formData = new FormData(e.target);
+export default function ContactSection({ accessKey }) {
+  const canSend = Boolean(accessKey);
+  const [status, setStatus] = useState('idle');
+  const [draft, setDraft] = useState('');
 
-    // Web3Forms configuration
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-    formData.append('access_key', accessKey);
-    formData.append('subject', `Portfolio Contact from ${formData.get('name')}`);
-    formData.append('from_name', formData.get('name'));
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const emailDraft = getEmailDraft(formData);
+
+    if (!canSend) {
+      window.location.href = emailDraft;
+      return;
+    }
+
+    setStatus('sending');
+    setDraft(emailDraft);
+    formData.set('subject', `Portfolio inquiry from ${formData.get('name')}`);
+    formData.set('from_name', formData.get('name'));
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch(formEndpoint, {
         method: 'POST',
-        body: formData
+        headers: { Accept: 'application/json' },
+        body: formData,
       });
-
       const data = await response.json();
 
-      if (data.success) {
-        toast.success('Message sent successfully! I\'ll get back to you soon.');
-        e.target.reset();
-      } else {
-        toast.error(data.message || 'Something went wrong. Please try again.');
-        console.error('Web3Forms response:', data);
+      if (!response.ok || !data.success) {
+        setStatus('error');
+        return;
       }
-    } catch (error) {
-      console.error('Submission Error:', error);
-      toast.error('Failed to send message. Please check your internet connection.');
-    } finally {
-      setLoading(false);
+
+      form.reset();
+      setStatus('success');
+    } catch {
+      setStatus('error');
     }
-  };
+  }
 
   return (
-    <section id="contact" className="py-20 bg-slate-950 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-600/10 rounded-full blur-3xl"></div>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-white/10">
-          <div className="grid md:grid-cols-2">
-            <div className="p-10 bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex flex-col justify-between">
-              <div>
-                <h2 className="text-3xl font-bold mb-4">Let's work together!</h2>
-                <p className="text-purple-100 mb-8">
-                  Have a project in mind? I'm available for freelance work and collaborations.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <a
-                  href="mailto: avnisixc13@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
-                >
-                  <Mail className="w-5 h-5 text-purple-200" />
-                  <span>avnisixc13@gmail.com</span>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/avni-saini-0927a12b9/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
-                >
-                  <Linkedin className="w-5 h-5 text-purple-200" />
-                  <span>linkedin.com/in/avni-saini</span>
-                </a>
-                <a
-                  href="https://instagram.com/damnitavni"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 hover:text-purple-100 transition-colors cursor-pointer"
-                >
-                  <Instagram className="w-5 h-5 text-purple-200" />
-                  <span>@damnitavni</span>
-                </a>
-              </div>
-            </div>
-
-            <div className="p-10 bg-slate-900">
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-400 mb-1">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Your Name"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="sender_email" className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-                  <input
-                    type="email"
-                    id="sender_email"
-                    name="sender_email"
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="your@email.com"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-400 mb-1">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Tell me about your project..."
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-white text-slate-900 font-bold py-3 rounded-lg hover:bg-purple-50 transition-colors disabled:opacity-50"
-                  disabled={loading}
-                >
-                  {loading ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
-            </div>
+    <section id="contact" className="contact-band" aria-labelledby="contact-title">
+      <div className="wrap section contact-layout">
+        <div className="contact-copy">
+          <h2 id="contact-title">Let’s make<br />something.</h2>
+          <p>Have a project in mind? Tell me what you’re working on.</p>
+          <a className="contact-email" href={`mailto:${contact.email}`}><Mail size={19} aria-hidden="true" /> {contact.email}</a>
+          <div className="social-links">
+            <a href={contact.linkedin} className="icon-button" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={19} aria-hidden="true" /></a>
+            <a href={contact.instagram} className="icon-button" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={19} aria-hidden="true" /></a>
           </div>
         </div>
+        <form
+          className="contact-form"
+          action={canSend ? formEndpoint : `mailto:${contact.email}`}
+          method="post"
+          encType={canSend ? undefined : 'text/plain'}
+          onSubmit={handleSubmit}
+          aria-label="Contact Avni"
+          aria-busy={status === 'sending'}
+        >
+          {canSend && <input type="hidden" name="access_key" value={accessKey} />}
+          <div className="contact-form-fields">
+            <label htmlFor="name">Your name<input id="name" name="name" autoComplete="name" placeholder="Name" required maxLength={100} /></label>
+            <label htmlFor="email">Your email<input id="email" name="email" type="email" autoComplete="email" placeholder="you@example.com" required maxLength={254} /></label>
+          </div>
+          <label htmlFor="message">Your message<textarea id="message" name="message" rows={4} placeholder="Tell me a little about your project" required maxLength={3000} /></label>
+          <input type="checkbox" name="botcheck" hidden tabIndex={-1} autoComplete="off" />
+          <button className="button button-light" type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Sending…' : canSend ? 'Send message' : 'Open email draft'} <ArrowUpRight size={18} aria-hidden="true" />
+          </button>
+          <div className="form-status" role="status">
+            {status === 'success' && 'Your message is on its way. Thanks for getting in touch!'}
+            {status === 'error' && <>Your message couldn’t be sent. <a href={draft}>Open it in your email app</a> or try again.</>}
+          </div>
+        </form>
       </div>
     </section>
   );
-};
-
-export default ContactSection;
+}

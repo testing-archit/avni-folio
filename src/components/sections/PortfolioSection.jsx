@@ -1,51 +1,83 @@
+'use client';
+
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowDown, ArrowUp } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import ProjectCard from '../ui/ProjectCard';
+import { categories, featuredProjectIds, portfolioItems } from '../../data/constants';
 
-import { ProjectCard } from '../ui';
+const featuredProjects = featuredProjectIds.map((id) => portfolioItems.find((item) => item.id === id));
+const allProjects = [...featuredProjects, ...portfolioItems.filter(({ id }) => !featuredProjectIds.includes(id))];
 
-const PortfolioSection = ({
-  categories,
-  filter,
-  setFilter,
-  filteredItems,
-}) => {
+export function WorkGallery({ filter = 'All', expanded = false, chooseFilter, toggleAll }) {
+  const projects = filter === 'All'
+    ? (expanded ? allProjects : featuredProjects)
+    : allProjects.filter((item) => item.category === filter);
+
   return (
-    <section id="portfolio" className="py-20 bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">Selected Works</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-8"></div>
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  filter === cat
-                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/25'
-                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence>
-            {filteredItems.map((item) => (
-              <ProjectCard key={item.id} item={item} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+    <section id="portfolio" className="wrap section work-section" aria-labelledby="work-title">
+      <div className="section-heading work-heading">
+        <h2 id="work-title">Selected work</h2>
+        <p>Brand identities, campus campaigns, and digital products.</p>
       </div>
+      <div className="work-toolbar">
+        <div className="filters" role="group" aria-label="Filter projects">
+          {categories.map((item) => (
+            <button key={item} type="button" aria-pressed={filter === item} onClick={() => chooseFilter?.(item)}>
+              {item}
+            </button>
+          ))}
+        </div>
+        <p className="project-count" role="status">{projects.length} of {allProjects.length} projects</p>
+      </div>
+      <div id="project-grid" className="project-grid">
+        {projects.map((item) => <ProjectCard key={item.id} item={item} />)}
+      </div>
+      {filter === 'All' && (
+        <div className="work-more">
+          <button className="button button-outline" type="button" onClick={toggleAll} aria-expanded={expanded} aria-controls="project-grid">
+            {expanded ? 'Show featured projects' : `View all ${allProjects.length} projects`}
+            {expanded ? <ArrowUp size={17} aria-hidden="true" /> : <ArrowDown size={17} aria-hidden="true" />}
+          </button>
+        </div>
+      )}
     </section>
   );
-};
+}
 
-export default PortfolioSection;
+export default function PortfolioSection() {
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+  const filter = categories.includes(category) ? category : 'All';
+  const expanded = searchParams.get('all') === '1';
+
+  function updateSearch(params) {
+    const { pathname, hash } = window.location;
+    const query = params.size ? `?${params}` : '';
+    window.history.replaceState(null, '', `${pathname}${query}${hash}`);
+  }
+
+  function chooseFilter(nextFilter) {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('all');
+    if (nextFilter === 'All') {
+      nextParams.delete('category');
+    } else {
+      nextParams.set('category', nextFilter);
+    }
+    updateSearch(nextParams);
+  }
+
+  function toggleAll() {
+    const nextParams = new URLSearchParams(searchParams);
+    if (expanded) {
+      nextParams.delete('all');
+      document.getElementById('portfolio')?.scrollIntoView();
+    } else {
+      nextParams.set('all', '1');
+    }
+    updateSearch(nextParams);
+  }
+
+  return <WorkGallery filter={filter} expanded={expanded} chooseFilter={chooseFilter} toggleAll={toggleAll} />;
+}
